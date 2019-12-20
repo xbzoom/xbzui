@@ -1,0 +1,82 @@
+@import '../../style/theme/variable.scss';
+
+$calendar-prefix-cls: '#{$xbzoom-prefix}-calendar';
+
+.#{$calendar-prefix-cls} {
+  width: 279px;
+  background-color: #fff;
+  border-radius: 4px;
+  padding-bottom: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  user-select: none;
+  position: relative;
+  &--yearSelect {
+    position: absolute;
+    z-index: 2;
+    width: 279px;
+    height: calc(100% - 40px);
+    top: 40px;
+    background-color: #fff;
+    border-radius: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    &--yearTd {
+      flex: 0 0 58px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      margin: 0 10px 36px;
+      &--yearItem {
+        font-size: 16px;
+        display: inline-block;
+        height: 24px;
+        text-align: center;
+        padding: 0 8px;
+        cursor: pointer;
+        &:hover {
+          background-color: #d2f1ec;
+        }
+        &--active {
+          border-radius: 2px;
+          background-color: $theme-color;
+          color: #fff;
+        }
+      }
+    }
+  }
+  &--monthSelect {
+    position: absolute;
+    z-index: 1;
+    width: 279px;
+    height: calc(100% - 40px);
+    top: 40px;
+    background-color: #fff;
+    border-radius: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    &--monthTd {
+      flex: 0 0 58px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      margin: 0 10px 36px;
+      &--monthItem {
+        display: inline-block;
+        height: 24px;
+        text-align: center;
+        padding: 0 8px;
+        cursor: pointer;
+        &:hover {
+          background-color: #d2f1ec;
+        }
+        &--active {
+          border-radius: 2px;
+          background-color: $theme-color;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

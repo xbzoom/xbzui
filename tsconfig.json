@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "outDir": "es/",
+    "module": "es6",
+    "target": "es5",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "rootDirs": [
+      "/src"
+    ],
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "declaration": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "src/components/global.d.ts"
+    ],
+    "baseUrl": "."
+  },
+  "include": [
+    "src/components"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "es",
+    "lib",
+    "config"
+  ]
+}

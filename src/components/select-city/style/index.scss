@@ -1,0 +1,237 @@
+@import '../../style/theme/variable.scss';
+
+$selectcity-prefix-cls: '#{$xbzoom-prefix}-selectcity';
+$selectcity-prefix-cls2: '#{$xbzoom-prefix}-selectcity-container';
+
+.#{$selectcity-prefix-cls} {
+  position: relative;
+  &--input {
+    &--clear {
+      position: absolute;
+      display: none;
+      right: 5px;
+      top: calc(50% - 7px);
+      width: 15px;
+      height: 15px;
+      font-size: 14px;
+      line-height: 1em;
+      border-radius: 14px;
+      text-align: center;
+      opacity: 0.7;
+      -webkit-transition: all 0.3s;
+      transition: all 0.3s;
+      cursor: pointer;
+      color: #aaa;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    &:hover {
+      .xbzoom-selectcity--input--clear {
+        display: block;
+        z-index: 10000;
+      }
+    }
+    &--disabled {
+      color: #bfbfbf;
+      background: #f5f5f5;
+      cursor: not-allowed;
+      &:hover {
+        border-color: #d9d9d9;
+      }
+    }
+  }
+}
+
+.#{$selectcity-prefix-cls2} {
+  position: absolute;
+  display: none;
+  border: 1px solid $theme-color;
+  font-family: 'Microsoft Yahei';
+  font-size: 14px;
+  background-color: rgb(255, 255, 255);
+  box-sizing: border-box;
+  z-index: 1;
+  &--show {
+    display: block;
+  }
+  &--hotcity {
+    display: flex;
+    align-items: baseline;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 15px;
+    &--title {
+      font-size: 15px;
+      font-weight: bold;
+      flex: 0 0 75px;
+    }
+    &--body {
+      line-height: 26px;
+      &--item {
+        cursor: pointer;
+        display: inline-block;
+        height: 26px;
+        line-height: 22px;
+        padding: 2px 4px;
+        margin-left: 5px;
+        -webkit-transition: all 0.15s;
+        transition: all 0.15s;
+        &:hover,
+        &--active {
+          color: #fff;
+          background-color: $theme-color;
+        }
+      }
+    }
+  }
+  &--list {
+    width: 100%;
+    border-top: 1px solid $theme-color;
+    &--row {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      padding: 6px 0 6px 12px;
+      border-bottom: 1px solid #e8e8e8;
+      cursor: pointer;
+      &--highlight{
+        color: #f60;
+      }
+      &:hover {
+        background-color: rgba(113, 223, 204, 0.4);
+      }
+      &--active {
+        color: #fff;
+        background-color: #1fd6b6;
+        .xbzoom-selectcity-container--list--row--highlight{
+          color: #fff;
+        }
+        &:hover {
+          background-color: #1fd6b6;
+        }
+      }
+    }
+    &--pagination {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 6px;
+      color: #666;
+      &--input {
+        width: 36px;
+        padding: 0;
+        height: 24px;
+        text-align: center;
+      }
+      &--partition {
+        margin: 0 5px;
+      }
+      &--left {
+        font-size: 12px;
+        margin-right: 5px;
+        cursor: pointer;
+        &:hover {
+          color: $theme-color;
+        }
+        &--disabled {
+          color: #d1d1d1;
+          cursor: not-allowed;
+          &:hover {
+            color: #d1d1d1;
+          }
+        }
+      }
+      &--right {
+        font-size: 12px;
+        margin-left: 5px;
+        cursor: pointer;
+        &:hover {
+          color: $theme-color;
+        }
+        &--disabled {
+          color: #d1d1d1;
+          cursor: not-allowed;
+          &:hover {
+            color: #d1d1d1;
+          }
+        }
+      }
+    }
+    &--none {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid $theme-color;
+      margin-top: -1px;
+      padding: 12px 16px;
+      color: rgba(0, 0, 0, 0.25);
+      font-size: 14px;
+      text-align: center;
+      background: #fff;
+      border: none;
+      border-radius: 0 0 4px 4px;
+    }
+  }
+  &--tab {
+    &--btns {
+      margin: 0;
+      padding: 0;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      &--btn {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        width: 100%;
+        text-align: center;
+        cursor: pointer;
+        height: 30px;
+        line-height: 30px;
+        &:hover,
+        &--active {
+          background: linear-gradient(0deg, $theme-color 2px, transparent 0);
+        }
+      }
+    }
+  }
+  &--tabCon {
+    &--citys {
+      overflow: hidden;
+      padding: 10px;
+      &--none {
+        color: #bfbfbf;
+        text-align: center;
+      }
+      &--areaGroup {
+        display: flex;
+        margin-bottom: 5px;
+        &--areaItem {
+          display: inline-block;
+          padding: 2px;
+          width: 34px;
+          font-weight: 700;
+        }
+      }
+      &--cityGroup {
+        flex: 1;
+        &--cityItem {
+          display: inline-block;
+          padding: 2px 4px;
+          margin-left: 10px;
+          cursor: pointer;
+          transition: all 0.15s;
+          &:hover,
+          &--active {
+            display: inline-block;
+            background-color: $theme-color;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
