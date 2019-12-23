@@ -436,16 +436,13 @@ export const matchSearch = (q: string, searchSource: searchSourceData[], address
       }
       return arr;
     };
-    let { py, name, pinyin } = data;
-    py = py ? py.toLocaleLowerCase() : '';
-    name = name ? name.toLocaleLowerCase() : '';
-    pinyin = pinyin ? pinyin.toLocaleLowerCase() : '';
+    const { py, name, pinyin } = data;
     /**
      * 匹配首字母，
      * 简拼，
      * 全拼
      */
-    if (py.startsWith(q) || name.startsWith(q) || pinyin.startsWith(q)) {
+    if (py.startsWith(q.toUpperCase()) || name.startsWith(q) || pinyin.startsWith(q)) {
       const newData = getMatchData(data, addressMap, deepMap);
       newData.forEach((element: any[]) => {
         const key: number[] = [];

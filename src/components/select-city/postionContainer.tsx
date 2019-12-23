@@ -179,7 +179,7 @@ export default class PostionContainer extends React.Component<PostionContainerPr
         </span>
       );
     }
-    if (py.indexOf(matchQ) >= 0) {
+    if (py.indexOf(matchQ.toUpperCase()) >= 0) {
       return (
         <span>
           {data.name}( {this.highlightReplace(py.toUpperCase(), matchQ.toUpperCase())} )
