@@ -1,7 +1,7 @@
 {
-  "name": "@xbzoom/react-component",
-  "version": "1.1.0",
-  "description": "react components",
+  "name": "@xbzoom/xbzui",
+  "version": "0.1.0",
+  "description": "react component",
   "private": false,
   "files": [
     "lib",
