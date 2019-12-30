@@ -5,7 +5,19 @@ const tsImportPluginFactory = require('ts-import-plugin');
 
 module.exports = {
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '.css', '.less', '.json', '.gif', '.png', '.jpg', '.html'],
+    extensions: [
+      '.tsx',
+      '.ts',
+      '.jsx',
+      '.js',
+      '.css',
+      '.less',
+      '.json',
+      '.gif',
+      '.png',
+      '.jpg',
+      '.html',
+    ],
     alias: {
       'react-dom': '@hot-loader/react-dom',
     },
@@ -25,7 +37,7 @@ module.exports = {
                   tsImportPluginFactory({
                     libraryName: 'antd',
                     libraryDirectory: 'es',
-                    style: 'css',
+                    style: true,
                   }),
                 ],
               }),

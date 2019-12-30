@@ -14,12 +14,12 @@
       display: none;
       width: 15px;
       height: 15px;
+      color: #aaa;
       font-size: 14px;
       line-height: 1em;
-      color: #aaa;
       text-align: center;
-      cursor: pointer;
       border-radius: 14px;
+      cursor: pointer;
       opacity: 0.7;
       -webkit-transition: all 0.3s;
       transition: all 0.3s;
@@ -38,8 +38,8 @@
 
     &--disabled {
       color: #bfbfbf;
-      cursor: not-allowed;
       background: #f5f5f5;
+      cursor: not-allowed;
 
       &:hover {
         border-color: #d9d9d9;
@@ -51,12 +51,12 @@
 .@{selectcity-prefix-cls2} {
   position: absolute;
   z-index: 1;
-  box-sizing: border-box;
   display: none;
-  font-family: 'Microsoft Yahei';
+  box-sizing: border-box;
   font-size: 14px;
+  font-family: 'Microsoft Yahei';
   background-color: rgb(255, 255, 255);
-  border: 1px solid @theme-color;
+  border: 1px solid @primary-color;
 
   &--show {
     display: block;
@@ -70,8 +70,8 @@
 
     &--title {
       flex: 0 0 75px;
-      font-size: 15px;
       font-weight: bold;
+      font-size: 15px;
     }
 
     &--body {
@@ -80,8 +80,8 @@
       &--item {
         display: inline-block;
         height: 26px;
-        padding: 2px 4px;
         margin-left: 5px;
+        padding: 2px 4px;
         line-height: 22px;
         cursor: pointer;
         -webkit-transition: all 0.15s;
@@ -90,7 +90,7 @@
         &:hover,
         &--active {
           color: #fff;
-          background-color: @theme-color;
+          background-color: @primary-color;
         }
       }
     }
@@ -98,17 +98,17 @@
 
   &--list {
     width: 100%;
-    border-top: 1px solid @theme-color;
+    border-top: 1px solid @primary-color;
 
     &--row {
-      box-sizing: border-box;
       display: flex;
       align-items: center;
+      box-sizing: border-box;
       width: 100%;
       min-height: 32px;
       padding: 6px 0 6px 12px;
-      cursor: pointer;
       border-bottom: 1px solid #e8e8e8;
+      cursor: pointer;
 
       &--highlight {
         color: #f60;
@@ -156,7 +156,7 @@
         cursor: pointer;
 
         &:hover {
-          color: @theme-color;
+          color: @primary-color;
         }
 
         &--disabled {
@@ -175,7 +175,7 @@
         cursor: pointer;
 
         &:hover {
-          color: @theme-color;
+          color: @primary-color;
         }
 
         &--disabled {
@@ -192,14 +192,14 @@
     &--none {
       position: relative;
       z-index: 1;
-      padding: 12px 16px;
       margin-top: -1px;
-      font-size: 14px;
+      padding: 12px 16px;
       color: rgba(0, 0, 0, 0.25);
+      font-size: 14px;
       text-align: center;
       background: #fff;
       border: none;
-      border-top: 1px solid @theme-color;
+      border-top: 1px solid @primary-color;
       border-radius: 0 0 4px 4px;
     }
   }
@@ -210,15 +210,15 @@
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      padding: 0;
       margin: 0;
+      padding: 0;
 
       &--btn {
         position: relative;
         width: 100%;
         height: 30px;
-        padding: 0;
         margin: 0;
+        padding: 0;
         line-height: 30px;
         text-align: center;
         list-style: none;
@@ -226,7 +226,7 @@
 
         &:hover,
         &--active {
-          background: linear-gradient(0deg, @theme-color 2px, transparent 0);
+          background: linear-gradient(0deg, @primary-color 2px, transparent 0);
         }
       }
     }
@@ -259,8 +259,8 @@
 
         &--cityItem {
           display: inline-block;
-          padding: 2px 4px;
           margin-left: 10px;
+          padding: 2px 4px;
           cursor: pointer;
           transition: all 0.15s;
 
@@ -268,7 +268,7 @@
           &--active {
             display: inline-block;
             color: #fff;
-            background-color: @theme-color;
+            background-color: @primary-color;
           }
         }
       }

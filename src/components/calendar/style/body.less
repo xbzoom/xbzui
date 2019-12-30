@@ -28,8 +28,8 @@
     font-size: 14px;
     line-height: 22px;
     text-align: center;
-    cursor: pointer;
     border-radius: 2px;
+    cursor: pointer;
 
     &:hover {
       background-color: #d2f1ec;
@@ -49,10 +49,10 @@
   }
 
   &--today {
+    color: @primary-color;
     line-height: 20px;
-    color: @theme-color;
     background-color: #d2f1ec;
-    border: 1px solid @theme-color;
+    border: 1px solid @primary-color;
 
     &:hover {
       background-color: #d2f1ec;
@@ -61,17 +61,17 @@
 
   &--active {
     color: #fff;
-    background-color: @theme-color;
+    background-color: @primary-color;
 
     &:hover {
-      background-color: @theme-color;
+      background-color: @primary-color;
     }
   }
 
   &--disable {
     color: #bbb;
-    cursor: not-allowed;
     background-color: #eee;
+    cursor: not-allowed;
 
     &:hover {
       background-color: #eee;

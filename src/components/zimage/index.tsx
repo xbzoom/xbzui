@@ -32,12 +32,12 @@ export interface PageStates {
 }
 
 export default class Zimage extends React.Component<PageProps, PageStates> {
+  private _container: HTMLElement;
+
   static defaultProps = {
     wrapperClassName: '',
     wrapperStyle: {},
   };
-
-  private _container: HTMLElement;
 
   constructor(props) {
     super(props);
@@ -61,16 +61,16 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
     this._container = document.body;
   }
 
+  componentDidMount() {
+    window.addEventListener('keydown', this.switchoverPicture);
+  }
+
   UNSAFE_componentWillReceiveProps(nextProps: PageProps) {
     if (this.props.srcs !== nextProps.srcs) {
       this.setState({
         srcs: nextProps.srcs,
       });
     }
-  }
-
-  componentDidMount() {
-    window.addEventListener('keydown', this.switchoverPicture);
   }
 
   componentWillUnmount() {
@@ -113,11 +113,15 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
         activeIndex: newActiveIndex >= 0 ? newActiveIndex : 0,
       },
       () => {
-        const { activeIndex, visibleImg, visibleMask, original } = this.state;
+        const { activeIndex: currentActiveIndex, visibleImg, visibleMask, original } = this.state;
         const { onPrev, onChange } = this.props;
-        onPrev && onPrev(activeIndex);
-        onChange && onChange(activeIndex, visibleImg && visibleMask, original);
-      }
+        if (onPrev) {
+          onPrev(currentActiveIndex);
+        }
+        if (onChange) {
+          onChange(currentActiveIndex, visibleImg && visibleMask, original);
+        }
+      },
     );
   };
 
@@ -132,17 +136,23 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
         activeIndex: newActiveIndex <= max ? newActiveIndex : max,
       },
       () => {
-        const { activeIndex, visibleMask, visibleImg, original } = this.state;
+        const { activeIndex: currentActiveIndex, visibleMask, visibleImg, original } = this.state;
         const { onNext, onChange } = this.props;
-        onNext && onNext(activeIndex);
-        onChange && onChange(activeIndex, visibleMask && visibleImg, original);
-      }
+        if (onNext) {
+          onNext(currentActiveIndex);
+        }
+        if (onChange) {
+          onChange(currentActiveIndex, visibleMask && visibleImg, original);
+        }
+      },
     );
   };
 
   /** 放大图片 */
   zoomImg = (e?: React.MouseEvent<HTMLImageElement, MouseEvent>, activeIndex?: number) => {
-    e && e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+    }
     const CSSProperties = {
       left: e && e.pageX ? e.pageX : 0,
       top: e && e.pageY ? e.pageY : 0,
@@ -170,10 +180,12 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
         },
         () => {
           document.body.style.overflow = 'hidden';
-          const { activeIndex, visibleImg, visibleMask, original } = this.state;
+          const { activeIndex: currentActiveIndex, visibleImg, visibleMask, original } = this.state;
           const { onChange } = this.props;
-          onChange && onChange(activeIndex, visibleImg && visibleMask, original);
-        }
+          if (onChange) {
+            onChange(currentActiveIndex, visibleImg && visibleMask, original);
+          }
+        },
       );
     }, 0);
   };
@@ -187,10 +199,12 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
           original: false,
         },
         () => {
-          const { activeIndex, visibleMask, visibleImg, original } = this.state;
+          const { activeIndex, visibleMask, visibleImg, original: currentOriginal } = this.state;
           const { onChange } = this.props;
-          onChange && onChange(activeIndex, visibleMask && visibleImg, original);
-        }
+          if (onChange) {
+            onChange(activeIndex, visibleMask && visibleImg, currentOriginal);
+          }
+        },
       );
     } else {
       this.shrink();
@@ -214,8 +228,10 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
           document.body.style.overflow = '';
           const { activeIndex, visibleImg, visibleMask, original } = this.state;
           const { onChange } = this.props;
-          onChange && onChange(activeIndex, visibleImg && visibleMask, original);
-        }
+          if (onChange) {
+            onChange(activeIndex, visibleImg && visibleMask, original);
+          }
+        },
       );
     }, 100);
   };
@@ -229,10 +245,12 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
         original: !original,
       },
       () => {
-        const { activeIndex, visibleImg, visibleMask, original } = this.state;
+        const { activeIndex, visibleImg, visibleMask, original: currentOriginal } = this.state;
         const { onChange } = this.props;
-        onChange && onChange(activeIndex, visibleImg && visibleMask, original);
-      }
+        if (onChange) {
+          onChange(activeIndex, visibleImg && visibleMask, currentOriginal);
+        }
+      },
     );
   };
 
@@ -245,7 +263,7 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
       <div className={className}>
         {srcs.map((src, index) => (
           <img
-            key={index}
+            key={src}
             className={classnames({
               [`${className}--img`]: true,
               [`${className}--img--last`]: index === srcs.length - 1,
@@ -266,8 +284,13 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
                   [`${className}--content`]: true,
                   [`${className}--content--original`]: original,
                 })}
-                onClick={this.downsize}>
-                <div className={`${className}--content--body`} style={CSSProperties} onClick={this.original}>
+                onClick={this.downsize}
+              >
+                <div
+                  className={`${className}--content--body`}
+                  style={CSSProperties}
+                  onClick={this.original}
+                >
                   <img
                     className={classnames({
                       [`${className}--content--body--img`]: true,
@@ -280,9 +303,11 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
                     <div className={`${className}--content--body--progress`}>
                       {srcs.map((item, index) => (
                         <i
-                          key={index}
+                          key={item}
                           className={`xbzoom xbzoom-yuanxing ${className}--content--body--progress--yuanxing ${
-                            activeIndex === index ? `${className}--content--body--progress--yuanxing--active` : ``
+                            activeIndex === index
+                              ? `${className}--content--body--progress--yuanxing--active`
+                              : ``
                           }`}
                           onClick={(e: any) => this.switchoverPicture(e, index)}
                         />
@@ -306,7 +331,7 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
                 </div>
               </div>
             </div>,
-            this._container
+            this._container,
           )}
       </div>
     );

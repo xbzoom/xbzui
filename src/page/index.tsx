@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { SelectCity } from '../components';
+import { SelectCity, Zimage } from '../components';
 import '../components/select-city/style';
+import '../components/zimage/style';
 import address from '../components/assets/address.json';
+import touxiang from '../components/assets/images/touxiang.jpg';
 
 const App = () => (
   <div>
@@ -18,6 +20,7 @@ const App = () => (
         },
       }}
     />
+    <Zimage srcs={[touxiang]} />
   </div>
 );
 
@@ -26,7 +29,7 @@ function renderWithHotReload() {
     <AppContainer>
       <App />
     </AppContainer>,
-    document.getElementById('root')
+    document.getElementById('root'),
   );
 }
 

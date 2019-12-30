@@ -13,10 +13,14 @@ const theme = require('../theme');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 /** 每次打包前要清空的文件夹 */
-const dirs = [path.join(__dirname, '../dist'), path.join(__dirname, '../es'), path.join(__dirname, '../lib')];
+const dirs = [
+  path.join(__dirname, '../dist'),
+  path.join(__dirname, '../es'),
+  path.join(__dirname, '../lib'),
+];
 
 /** 清空文件夹方法 */
-const deleteFolder = (path) => {
+const deleteFolder = path => {
   let files = [];
   if (fs.existsSync(path)) {
     files = fs.readdirSync(path);
@@ -32,7 +36,7 @@ const deleteFolder = (path) => {
   }
 };
 
-dirs.forEach((p) => {
+dirs.forEach(p => {
   deleteFolder(p);
 });
 
@@ -89,6 +93,7 @@ const prodConfig = {
           loader: 'less-loader',
           options: {
             modifyVars: theme,
+            javascriptEnabled: true,
           },
         },
       ],
@@ -133,11 +138,11 @@ const prodConfig = {
       commonjs: 'classnames',
       amd: 'classnames',
     },
-    omit: {
-      root: 'omit',
-      commonjs2: 'omit',
-      commonjs: 'omit',
-      amd: 'omit',
+    antd: {
+      root: 'antd',
+      commonjs2: 'antd',
+      commonjs: 'antd',
+      amd: 'antd',
     },
     'prop-types': {
       root: 'PropTypes',

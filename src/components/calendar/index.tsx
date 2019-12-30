@@ -33,8 +33,8 @@ export interface PageStates {
   selectYear: boolean;
   /** 是否开始月快速选择功能 */
   selectMonth: boolean;
-  showYearSelect: boolean;
-  showMonthSelect: boolean;
+  // showYearSelect: boolean;
+  // showMonthSelect: boolean;
   showYearQuickSelect: boolean;
   showMonthQuickSelect: boolean;
 }
@@ -58,13 +58,13 @@ const displayDaysPerMonth = (year: number) => {
     const day = new Date(year, index, 1).getDay();
     if (day === 0) {
       return 6;
-    } else {
-      return day - 1;
     }
+    return day - 1;
   });
 
   // 已数组形式返回一年中每个月的显示数据,每个数据为6行*7天
   return new Array(12).fill([]).map((month, monthIndex) => {
+    /* eslint-disable */
     let addDays = addDaysFromPreMonth[monthIndex];
     const daysCount = daysInMonth[monthIndex];
     let daysCountPrevious = daysInPreviousMonth[monthIndex];
@@ -82,6 +82,7 @@ const displayDaysPerMonth = (year: number) => {
       monthData.push(++j);
     }
     return monthData;
+    /* eslint-enable */
   });
 };
 
@@ -124,8 +125,8 @@ export default class Calendar extends React.Component<PageProps, PageStates> {
       dates: defaultDates || [],
       selectYear: selectYear || false,
       selectMonth: selectMonth || false,
-      showYearSelect: false,
-      showMonthSelect: false,
+      // showYearSelect: false,
+      // showMonthSelect: false,
       showYearQuickSelect: false,
       showMonthQuickSelect: false,
     };
@@ -195,7 +196,7 @@ export default class Calendar extends React.Component<PageProps, PageStates> {
             const dateString = `${rYear}-${formatNumber(rMonth + 1)}-${formatNumber(day)}`;
             this.recordDates(dateString);
           }
-        }
+        },
       );
     } else {
       this.setState(
@@ -208,7 +209,7 @@ export default class Calendar extends React.Component<PageProps, PageStates> {
             const dateString = `${rYear}-${formatNumber(rMonth + 1)}-${formatNumber(day)}`;
             this.recordDates(dateString);
           }
-        }
+        },
       );
     }
   };
@@ -228,7 +229,7 @@ export default class Calendar extends React.Component<PageProps, PageStates> {
             const dateString = `${rYear}-${formatNumber(rMonth + 1)}-${formatNumber(day)}`;
             this.recordDates(dateString);
           }
-        }
+        },
       );
     } else {
       this.setState(
@@ -241,7 +242,7 @@ export default class Calendar extends React.Component<PageProps, PageStates> {
             const dateString = `${rYear}-${formatNumber(rMonth + 1)}-${formatNumber(day)}`;
             this.recordDates(dateString);
           }
-        }
+        },
       );
     }
   };
@@ -289,7 +290,7 @@ export default class Calendar extends React.Component<PageProps, PageStates> {
         () => {
           const { dates: newDates } = this.state;
           this.recordDatesCallback(newDates);
-        }
+        },
       );
     } else {
       this.setState(
@@ -299,7 +300,7 @@ export default class Calendar extends React.Component<PageProps, PageStates> {
         () => {
           const { dates: newDates } = this.state;
           this.recordDatesCallback(newDates);
-        }
+        },
       );
     }
   };
@@ -308,8 +309,9 @@ export default class Calendar extends React.Component<PageProps, PageStates> {
     const { onDayClick } = this.props;
 
     const dateString = dateToString(dates);
-
-    onDayClick && onDayClick({ dates, dateString });
+    if (onDayClick) {
+      onDayClick({ dates, dateString });
+    }
   };
 
   /** 获取年份选择区间 */
@@ -328,7 +330,16 @@ export default class Calendar extends React.Component<PageProps, PageStates> {
   };
 
   render() {
-    const { year, month, day, dates, selectYear, selectMonth, showMonthQuickSelect, showYearQuickSelect } = this.state;
+    const {
+      year,
+      month,
+      day,
+      dates,
+      selectYear,
+      selectMonth,
+      showMonthQuickSelect,
+      showYearQuickSelect,
+    } = this.state;
     const { wrapperClassName, minDate, maxDate } = this.props;
     const props = {
       minDate,
@@ -345,17 +356,19 @@ export default class Calendar extends React.Component<PageProps, PageStates> {
         className={classnames({
           [className]: true,
           [wrapperClassName || '']: wrapperClassName,
-        })}>
+        })}
+      >
         {showYearQuickSelect && (
           <div className={`${className}--yearSelect`}>
-            {yearArray.map((item) => (
+            {yearArray.map(item => (
               <span className={`${className}--yearSelect--yearTd`} key={item.index}>
                 <span
                   className={classnames(
                     `${className}--yearSelect--yearTd--yearItem`,
-                    item.isSelect ? `${className}--yearSelect--yearTd--yearItem--active` : ''
+                    item.isSelect ? `${className}--yearSelect--yearTd--yearItem--active` : '',
                   )}
-                  onClick={() => this.changeYear(item.year)}>
+                  onClick={() => this.changeYear(item.year)}
+                >
                   {item.year}
                 </span>
               </span>
@@ -364,14 +377,17 @@ export default class Calendar extends React.Component<PageProps, PageStates> {
         )}
         {showMonthQuickSelect && (
           <div className={`${className}--monthSelect`}>
-            {monthArray.map((item) => (
+            {monthArray.map(item => (
               <span className={`${className}--monthSelect--monthTd`} key={item}>
                 <span
                   className={classnames(
                     `${className}--monthSelect--monthTd--monthItem`,
-                    month + 1 === item ? `${className}--monthSelect--monthTd--monthItem--active` : ''
+                    month + 1 === item
+                      ? `${className}--monthSelect--monthTd--monthItem--active`
+                      : '',
                   )}
-                  onClick={() => this.changeMonth(item - 1)}>
+                  onClick={() => this.changeMonth(item - 1)}
+                >
                   {monthMap[item]}
                 </span>
               </span>

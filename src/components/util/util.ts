@@ -1,5 +1,5 @@
 import * as dayjs from 'dayjs';
-import { debounceOptionType, throttleOptionType, searchResultArr, searchSourceData } from './baseType';
+import { debounceOptionType, throttleOptionType, searchSourceData } from './baseType';
 
 /** 划分日期区间 */
 export const dateToString = (dates: string[]) => {
@@ -31,7 +31,7 @@ export const dateToString = (dates: string[]) => {
   const formatMD = (d: string) => dayjs(d).format('MM-DD');
 
   const dateString = diffArr
-    .map((item) => {
+    .map(item => {
       if (item[0] === item[1]) {
         return formatMD(item[0]);
       }
@@ -48,30 +48,41 @@ export const formatNumber = (n: string | number) => {
   return str[1] ? str : `0${str}`;
 };
 
-export const isObject = (value) => {
+export const isObject = value => {
   const type = typeof value;
   return value != null && (type === 'object' || type === 'function');
 };
 
 /** 从Node.js中检测变量global */
-const freeGlobal = typeof global === 'object' && global !== null && global.Object === Object && global;
+const freeGlobal =
+  typeof global === 'object' && global !== null && global.Object === Object && global;
 
 /** 检测变量globalThis */
 const freeGlobalThis =
-  typeof globalThis === 'object' && globalThis !== null && globalThis.Object == Object && globalThis;
+  typeof globalThis === 'object' &&
+  globalThis !== null &&
+  globalThis.Object === Object &&
+  globalThis;
 
 /** 检测变量self */
-const freeSelf = typeof self === 'object' && self !== null && self.Object === Object && self;
+const freeSelf = typeof self === 'object' && self !== null && self.Object === Object && self; // eslint-disable-line
 
 /** 用作对全局对象的引用 */
-const root = freeGlobalThis || freeGlobal || freeSelf || Function('return this')();
+const root = freeGlobalThis || freeGlobal || freeSelf || Function('return this')(); // eslint-disable-line
 
 /**
- * 创建一个 debounced（防抖动）函数，该函数会从上一次被调用后，延迟 wait 毫秒后调用 func 方法。 debounced（防抖动）函数提供一个 cancel 方法取消延迟的函数调用以及 flush 方法立即调用。 可以提供一个 options（选项） 对象决定如何调用 func 方法，options.leading 与|或 options.trailing 决定延迟前后如何触发（是 先调用后等待 还是 先等待后调用）。 func 调用时会传入最后一次提供给 debounced（防抖动）函数 的参数。 后续调用的 debounced（防抖动）函数返回是最后一次 func 调用的结果。
+ * 创建一个 debounced（防抖动）函数，该函数会从上一次被调用后，
+ * 延迟 wait 毫秒后调用 func 方法。
+ * debounced（防抖动）函数提供一个 cancel 方法取消延迟的函数调用以及 flush 方法立即调用。
+ * 可以提供一个 options（选项） 对象决定如何调用 func 方法，
+ * options.leading 与|或 options.trailing
+ * 决定延迟前后如何触发（是 先调用后等待 还是 先等待后调用）。
+ * func 调用时会传入最后一次提供给 debounced（防抖动）函数 的参数。 后续调用的 debounced（防抖动）函数返回是最后一次 func 调用的结果。
  * 注意: 如果 leading 和 trailing 选项为 true, 则 func 允许 trailing 方式调用的条件为: 在 wait 期间多次调用防抖方法。
  * 如果 wait 为 0 并且 leading 为 false, func调用将被推迟到下一个点，类似setTimeout为0的超时。
  */
 export const debounce = (func: Function, wait: number, options: debounceOptionType = {}) => {
+  /* eslint-disable */
   let lastArgs, lastThis, maxWait, result, timerId, lastCallTime;
 
   let lastInvokeTime = 0;
@@ -214,10 +225,15 @@ export const debounce = (func: Function, wait: number, options: debounceOptionTy
   debounced.flush = flush;
   debounced.pending = pending;
   return debounced;
+  /* eslint-enable */
 };
 
 /**
- * 创建一个节流函数，在 wait 秒内最多执行 func 一次的函数。 该函数提供一个 cancel 方法取消延迟的函数调用以及 flush 方法立即调用。 可以提供一个 options 对象决定如何调用 func 方法， options.leading 与|或 options.trailing 决定 wait 前后如何触发。 func 会传入最后一次传入的参数给这个函数。 随后调用的函数返回是最后一次 func 调用的结果。
+ * 创建一个节流函数，在 wait 秒内最多执行 func 一次的函数。
+ * 该函数提供一个 cancel 方法取消延迟的函数调用以及 flush 方法立即调用。
+ * 可以提供一个 options 对象决定如何调用 func 方法，
+ * options.leading 与|或 options.trailing 决定 wait 前后如何触发。
+ * func 会传入最后一次传入的参数给这个函数。 随后调用的函数返回是最后一次 func 调用的结果。
  * 注意: 如果 leading 和 trailing 都设定为 true 则 func 允许 trailing 方式调用的条件为: 在 wait 期间多次调用。
  * 如果 wait 为 0 并且 leading 为 false, func调用将被推迟到下一个点，类似setTimeout为0的超时。
  */
@@ -246,8 +262,9 @@ export const throttle = (func: Function, wait: number, options: throttleOptionTy
  */
 export const parseAddress: (
   data: Record<string, any>,
-  max: number
+  max: number,
 ) => { addressMap: Map<any, any>[]; addressMapSearch: any[] } = (data, max) => {
+  /* eslint-disable */
   const addressMap: Map<any, any>[] = [];
   let index = 0;
   const addressMapSearch: any[] = [];
@@ -325,7 +342,7 @@ export const parseAddress: (
           const children = v.children;
 
           const newParentIds: any[] = [];
-          parentIds.forEach((value) => {
+          parentIds.forEach(value => {
             newParentIds.push(value);
           });
           if (index <= max) {
@@ -357,9 +374,16 @@ export const parseAddress: (
     addressMap,
     addressMapSearch,
   };
+  /* eslint-enable */
 };
 
-export const matchSearch = (q: string, searchSource: searchSourceData[], addressMap: any[], deepMap: any[]) => {
+export const matchSearch = (
+  q: string,
+  searchSource: searchSourceData[],
+  addressMap: any[],
+  deepMap: any[],
+) => {
+  /* eslint-disable */
   const searchResult = {
     length: 0,
   };
@@ -368,7 +392,7 @@ export const matchSearch = (q: string, searchSource: searchSourceData[], address
    */
   q = q.toLocaleLowerCase();
 
-  searchSource.forEach((data) => {
+  searchSource.forEach(data => {
     const getMatchData = (data: searchSourceData, addressMap: Map<any, any>[], deepMap: any[]) => {
       const { parentIds } = data;
       const selfValue = data.value;
@@ -462,13 +486,14 @@ export const matchSearch = (q: string, searchSource: searchSourceData[], address
   if (searchResult.length === 0) {
     return [];
   }
-  const searchResultArr: searchResultArr[] = [];
+  const searchResultArr: Array<any> = [];
   for (const key in searchResult) {
     if (key !== 'length') {
       searchResultArr.push(searchResult[key]);
     }
   }
   return searchResultArr;
+  /* eslint-enable */
 };
 
 /**
@@ -477,7 +502,11 @@ export const matchSearch = (q: string, searchSource: searchSourceData[], address
  * @param  {Map} map  对照的Map
  * @return {Array}      中文地址
  */
-export const parseAddressName: (data: any[], map: Array<Map<any, any>>) => string[] = (data, map) => {
+export const parseAddressName: (data: any[], map: Array<Map<any, any>>) => string[] = (
+  data,
+  map,
+) => {
+  /* eslint-disable */
   if (data.length <= 0) return [];
   const arr = data.map((v, i) => {
     if (i === 0) {
@@ -502,6 +531,7 @@ export const parseAddressName: (data: any[], map: Array<Map<any, any>>) => strin
   });
 
   return arr;
+  /* eslint-enable */
 };
 
 export default {

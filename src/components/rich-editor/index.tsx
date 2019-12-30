@@ -1,5 +1,5 @@
 import * as React from 'react';
-import BraftEditor from 'braft-editor';
+import BraftEditor, { BraftEditorProps, EditorState } from 'braft-editor';
 import ColorPicker from 'braft-extensions/dist/color-picker';
 // import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
 import Table from 'braft-extensions/dist/table';
@@ -11,7 +11,7 @@ import HeaderId from 'braft-extensions/dist/header-id';
 BraftEditor.use(
   ColorPicker({
     includeEditors: ['xbzoom-rich-editor'],
-  })
+  }),
 );
 
 /** 加载代码高亮扩展 */
@@ -27,28 +27,28 @@ BraftEditor.use(
     withDropdown: true, // 插入表格前是否弹出下拉菜单
     exportAttrString: '', // 指定输出HTML时附加到table标签上的属性字符串
     includeEditors: ['xbzoom-rich-editor'], // 指定该模块对哪些BraftEditor生效，不传此属性则对所有BraftEditor有效
-  })
+  }),
 );
 
 /** 加载markdown支持扩展 */
 BraftEditor.use(
   Markdown({
     includeEditors: ['xbzoom-rich-editor'],
-  })
+  }),
 );
 
 /** 加载字数限制模块 */
 BraftEditor.use(
   MaxLength({
     includeEditors: ['xbzoom-rich-editor'],
-  })
+  }),
 );
 
 /** 加载h1-h6锚点扩展 */
 BraftEditor.use(
   HeaderId({
     includeEditors: ['xbzoom-rich-editor'],
-  })
+  }),
 );
 
 export interface PageProps extends BraftEditorProps {
@@ -71,6 +71,8 @@ export interface PageStates {
 // 编写扩展模块https://braft.margox.cn/demos/inline-style
 
 export default class RichEditor extends React.Component<PageProps, PageStates> {
+  editor: BraftEditor | null;
+
   constructor(props) {
     super(props);
     const { defaultValue } = props;
@@ -81,27 +83,31 @@ export default class RichEditor extends React.Component<PageProps, PageStates> {
     // this.braftFinder = this.editor.getFinderInstance()
   }
 
-  editor: BraftEditor | null;
-
   submitContent = async () => {
     // 在编辑器获得焦点时按下ctrl+s会执行此方法
     // 编辑器内容提交到服务端之前，可直接调用editorState.toHTML()来获取HTML格式的内容
     const { editorState } = this.state;
     const htmlContent = editorState.toHTML();
     const { onSave } = this.props;
-    onSave && onSave(htmlContent);
+    if (onSave) {
+      onSave(htmlContent);
+    }
   };
 
   handleEditorChange = (editorState: EditorState) => {
     this.setState({ editorState }, () => {
       const { onChange } = this.props;
-      onChange && onChange(editorState);
+      if (onChange) {
+        onChange(editorState);
+      }
     });
   };
 
   onReachMaxLength = () => {
     const { onReachMaxLength } = this.props;
-    onReachMaxLength && onReachMaxLength();
+    if (onReachMaxLength) {
+      onReachMaxLength();
+    }
   };
 
   render() {
@@ -113,7 +119,9 @@ export default class RichEditor extends React.Component<PageProps, PageStates> {
     let braftEditorProps: any = {
       ...this.props,
       id: 'xbzoom-rich-editor',
-      ref: (node) => (this.editor = node),
+      ref: node => {
+        this.editor = node;
+      },
       value: editorState,
       extendControls,
       onChange: this.handleEditorChange,

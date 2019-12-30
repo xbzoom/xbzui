@@ -33,12 +33,16 @@ export interface PagaProps {
 export default class CalendarHeader extends React.Component<PagaProps, {}> {
   onSelectYear = () => {
     const { selectYear, onSelectYear } = this.props;
-    selectYear && onSelectYear && onSelectYear();
+    if (selectYear && onSelectYear) {
+      onSelectYear();
+    }
   };
 
   onSelectMonth = () => {
     const { selectMonth, onSelectMonth, showYearQuickSelect } = this.props;
-    !showYearQuickSelect && selectMonth && onSelectMonth && onSelectMonth();
+    if (!showYearQuickSelect && selectMonth && onSelectMonth) {
+      onSelectMonth();
+    }
   };
 
   render() {
@@ -57,53 +61,88 @@ export default class CalendarHeader extends React.Component<PagaProps, {}> {
       month,
     } = this.props;
     const className = 'xbzoom-calendar-header';
+    let leftBtn;
+    let rightBtn;
+    if (showYearQuickSelect) {
+      leftBtn = (
+        <i
+          className={`xbzoom xbzoom-angle-double-left ${className}--doubleLeft`}
+          onClick={() => prevYearQuick()}
+        />
+      );
+    } else if (showMonthQuickSelect) {
+      leftBtn = (
+        <i
+          className={`xbzoom xbzoom-angle-double-left ${className}--doubleLeft`}
+          onClick={() => prevYear()}
+        />
+      );
+    } else {
+      leftBtn = (
+        <>
+          <i
+            className={`xbzoom xbzoom-angle-double-left ${className}--doubleLeft`}
+            onClick={() => prevYear()}
+          />
+          <i
+            className={`xbzoom xbzoom-angle-left ${className}--left`}
+            onClick={() => prevMonth()}
+          />
+        </>
+      );
+    }
+    if (showYearQuickSelect) {
+      rightBtn = (
+        <i
+          className={`xbzoom xbzoom-angle-double-right ${className}--doubleRight`}
+          onClick={() => nextYearQuick()}
+        />
+      );
+    } else if (showMonthQuickSelect) {
+      rightBtn = (
+        <i
+          className={`xbzoom xbzoom-angle-double-right ${className}--doubleRight`}
+          onClick={() => nextYear()}
+        />
+      );
+    } else {
+      rightBtn = (
+        <>
+          <i
+            className={`xbzoom xbzoom-angle-right ${className}--right`}
+            onClick={() => nextMonth()}
+          />
+          <i
+            className={`xbzoom xbzoom-angle-double-right ${className}--doubleRight`}
+            onClick={() => nextYear()}
+          />
+        </>
+      );
+    }
     return (
       <div className={className}>
-        <span style={{ display: 'flex' }}>
-          {showYearQuickSelect ? (
-            <i className={`xbzoom xbzoom-angle-double-left ${className}--doubleLeft`} onClick={() => prevYearQuick()} />
-          ) : showMonthQuickSelect ? (
-            <i className={`xbzoom xbzoom-angle-double-left ${className}--doubleLeft`} onClick={() => prevYear()} />
-          ) : (
-            <>
-              <i className={`xbzoom xbzoom-angle-double-left ${className}--doubleLeft`} onClick={() => prevYear()} />
-              <i className={`xbzoom xbzoom-angle-left ${className}--left`} onClick={() => prevMonth()} />
-            </>
-          )}
-        </span>
+        <span style={{ display: 'flex' }}>{leftBtn}</span>
         <span className={`${className}--dateInfo`}>
           <span
             className={classnames(
               `${className}--dateInfo--year`,
-              selectYear ? `${className}--dateInfo--yearSelect` : ''
+              selectYear ? `${className}--dateInfo--yearSelect` : '',
             )}
-            onClick={this.onSelectYear}>
+            onClick={this.onSelectYear}
+          >
             <span style={{ fontWeight: 'bold' }}>{year}</span>年
           </span>
           <span
             className={classnames(
               `${className}--dateInfo--month`,
-              !showYearQuickSelect && selectMonth ? `${className}--dateInfo--monthSelect` : ''
+              !showYearQuickSelect && selectMonth ? `${className}--dateInfo--monthSelect` : '',
             )}
-            onClick={this.onSelectMonth}>
+            onClick={this.onSelectMonth}
+          >
             <span style={{ fontWeight: 'bold' }}>{month + 1}</span>月
           </span>
         </span>
-        <span style={{ display: 'flex' }}>
-          {showYearQuickSelect ? (
-            <i
-              className={`xbzoom xbzoom-angle-double-right ${className}--doubleRight`}
-              onClick={() => nextYearQuick()}
-            />
-          ) : showMonthQuickSelect ? (
-            <i className={`xbzoom xbzoom-angle-double-right ${className}--doubleRight`} onClick={() => nextYear()} />
-          ) : (
-            <>
-              <i className={`xbzoom xbzoom-angle-right ${className}--right`} onClick={() => nextMonth()} />
-              <i className={`xbzoom xbzoom-angle-double-right ${className}--doubleRight`} onClick={() => nextYear()} />
-            </>
-          )}
-        </span>
+        <span style={{ display: 'flex' }}>{rightBtn}</span>
       </div>
     );
   }

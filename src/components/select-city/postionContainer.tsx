@@ -38,9 +38,14 @@ export interface PostionContainerStates {
   selectedHotCityId: number;
 }
 
-export default class PostionContainer extends React.Component<PostionContainerProps, PostionContainerStates> {
+export default class PostionContainer extends React.Component<
+  PostionContainerProps,
+  PostionContainerStates
+> {
   private _container: HTMLDivElement;
+
   list: List;
+
   constructor(props: PostionContainerProps) {
     super(props);
     const { searchDataSource, selectVal } = props;
@@ -54,18 +59,6 @@ export default class PostionContainer extends React.Component<PostionContainerPr
     this._container = document.createElement('div');
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: PostionContainerProps) {
-    const { searchDataSource } = nextProps;
-    if (JSON.stringify(searchDataSource) !== JSON.stringify(this.props.searchDataSource)) {
-      this.setState({
-        selectedIndex: 0,
-        current: 1,
-        pageSize: 8,
-        totalPage: Math.ceil(searchDataSource.length / 8),
-      });
-    }
-  }
-
   componentDidMount() {
     const {
       params: { getPopupContainer },
@@ -76,6 +69,18 @@ export default class PostionContainer extends React.Component<PostionContainerPr
       document.body.appendChild(this._container);
     }
     window.addEventListener('keydown', this.listenKeydown);
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps: PostionContainerProps) {
+    const { searchDataSource } = nextProps;
+    if (JSON.stringify(searchDataSource) !== JSON.stringify(this.props.searchDataSource)) {
+      this.setState({
+        selectedIndex: 0,
+        current: 1,
+        pageSize: 8,
+        totalPage: Math.ceil(searchDataSource.length / 8),
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -91,7 +96,7 @@ export default class PostionContainer extends React.Component<PostionContainerPr
   }
 
   /** 监听键盘上下方向键 */
-  listenKeydown = (e) => {
+  listenKeydown = e => {
     const { keyCode } = e;
     const { searchDataSource } = this.props;
     const { selectedIndex, current, totalPage, pageSize } = this.state;
@@ -106,7 +111,7 @@ export default class PostionContainer extends React.Component<PostionContainerPr
         if (newSelectedIndex < 0) {
           if (current > 1) {
             newSelectedIndex = 7;
-            newCurrent = newCurrent - 1;
+            newCurrent -= 1;
             this.prevBtn();
           } else {
             newSelectedIndex = 0;
@@ -127,8 +132,8 @@ export default class PostionContainer extends React.Component<PostionContainerPr
         if (newCurrent < totalPage) {
           if (newSelectedIndex > pageSize - 1) {
             newSelectedIndex = 0;
-            newCurrent = newCurrent + 1;
-            this.nextBtn;
+            newCurrent += 1;
+            this.nextBtn();
           }
         } else if (max === 0) {
           if (newSelectedIndex > pageSize - 1) {
@@ -145,24 +150,12 @@ export default class PostionContainer extends React.Component<PostionContainerPr
         });
       } else if (keyCode === 13) {
         const node = document.querySelector(`.${this.list.classNameForSelected}`);
-        node && (node as any).click();
+        if (node) {
+          (node as any).click();
+        }
       }
     }
   };
-
-  highlightReplace(data: string, matchQ: string) {
-    const newData = data.replace(matchQ, `*&*${matchQ}*&*`);
-    return newData.split('*&*').map((value: any) => {
-      if (value === matchQ) {
-        return (
-          <span className="xbzoom-selectcity-container--list--row--highlight" key={value}>
-            {value}
-          </span>
-        );
-      }
-      return value;
-    });
-  }
 
   highlight = (data: searchResultArr) => {
     let { matchQ } = this.props;
@@ -189,11 +182,6 @@ export default class PostionContainer extends React.Component<PostionContainerPr
 
     return data.name;
   };
-
-  handClick(e: React.SyntheticEvent<HTMLDivElement>) {
-    /* 阻止冒泡 */
-    e.nativeEvent.stopImmediatePropagation();
-  }
 
   /** prevBtn */
   prevBtn = () => {
@@ -254,6 +242,25 @@ export default class PostionContainer extends React.Component<PostionContainerPr
     });
   };
 
+  highlightReplace = (data: string, matchQ: string) => {
+    const newData = data.replace(matchQ, `*&*${matchQ}*&*`);
+    return newData.split('*&*').map((value: any) => {
+      if (value === matchQ) {
+        return (
+          <span className="xbzoom-selectcity-container--list--row--highlight" key={value}>
+            {value}
+          </span>
+        );
+      }
+      return value;
+    });
+  };
+
+  handClick = (e: React.SyntheticEvent<HTMLDivElement>) => {
+    /* 阻止冒泡 */
+    e.nativeEvent.stopImmediatePropagation();
+  };
+
   render() {
     const className = 'xbzoom-selectcity-container';
     const {
@@ -285,14 +292,16 @@ export default class PostionContainer extends React.Component<PostionContainerPr
           <div className={`${className}--hotcity`}>
             <div className={`${className}--hotcity--title`}>热门城市：</div>
             <div className={`${className}--hotcity--body`}>
-              {hotData.map((item) => (
+              {hotData.map(item => (
                 <span
                   key={item.cityId}
                   className={classnames({
                     [`${className}--hotcity--body--item`]: true,
-                    [`${className}--hotcity--body--item--active`]: selectedHotCityId === item.cityId,
+                    [`${className}--hotcity--body--item--active`]:
+                      selectedHotCityId === item.cityId,
                   })}
-                  onClick={() => this.clickHotCity(item.provinceId, item.cityId)}>
+                  onClick={() => this.clickHotCity(item.provinceId, item.cityId)}
+                >
                   {item.name}
                 </span>
               ))}
@@ -301,7 +310,9 @@ export default class PostionContainer extends React.Component<PostionContainerPr
         )}
         {searching ? (
           <List
-            ref={(node: List) => (this.list = node)}
+            ref={(node: List) => {
+              this.list = node;
+            }}
             searchDataSource={searchDataSource}
             selectedIndex={selectedIndex}
             setInputValue={setInputValue}
@@ -320,7 +331,7 @@ export default class PostionContainer extends React.Component<PostionContainerPr
           </div>
         )}
       </div>,
-      this._container
+      this._container,
     );
   }
 }

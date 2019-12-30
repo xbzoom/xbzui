@@ -69,6 +69,7 @@ const devConfig = {
           loader: 'less-loader',
           options: {
             modifyVars: theme,
+            javascriptEnabled: true,
           },
         },
       ],

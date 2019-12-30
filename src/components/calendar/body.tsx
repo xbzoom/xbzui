@@ -74,44 +74,47 @@ export default class CalendarBody extends React.Component<PageProps, {}> {
           </tr>
         </thead>
         <tbody>
-          {rowsInMonth.map((row, rowsInMonthIndex) => {
-            return (
-              <tr key={`${JSON.stringify(row)}${Math.random()}`}>
-                {row.map((rday, dayIndex) => {
-                  const styleName = styleOfDays[rowsInMonthIndex * 7 + dayIndex];
-                  let currentDateString = `${year}-${formatNumber(month + 1)}-${formatNumber(rday)}`;
-                  if (styleName === `${className}--prevMonth`) {
-                    currentDateString = `${month === 0 ? year - 1 : year}-${formatNumber(
-                      month === 0 ? 12 : month
-                    )}-${formatNumber(rday)}`;
-                  } else if (styleName === `${className}--nextMonth`) {
-                    currentDateString = `${month === 11 ? year + 1 : year}-${formatNumber(
-                      month === 11 ? 1 : month + 2
-                    )}-${formatNumber(rday)}`;
-                  }
-                  const disable =
-                    (minDate &&
-                      typeof minDate === 'string' &&
-                      dayjs(currentDateString).unix() < dayjs(minDate).unix()) ||
-                    (maxDate && typeof maxDate === 'string' && dayjs(currentDateString).unix() > dayjs(maxDate).unix());
-                  return (
-                    <td
-                      className={classnames(
-                        `${className}--dayBlock`,
-                        styleName,
-                        currentDateString === dayjs().format('YYYY-MM-DD') ? `${className}--today` : '',
-                        dates.indexOf(currentDateString) > -1 ? `${className}--active` : '',
-                        disable ? `${className}--disable` : ''
-                      )}
-                      onClick={() => this.handleDatePick(rday, styleName, disable || false)}
-                      key={`${JSON.stringify(row)}${Math.random()}${rday}`}>
-                      {rday}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
+          {rowsInMonth.map((row, rowsInMonthIndex) => (
+            <tr key={`${JSON.stringify(row)}${Math.random()}`}>
+              {row.map((rday, dayIndex) => {
+                const styleName = styleOfDays[rowsInMonthIndex * 7 + dayIndex];
+                let currentDateString = `${year}-${formatNumber(month + 1)}-${formatNumber(rday)}`;
+                if (styleName === `${className}--prevMonth`) {
+                  currentDateString = `${month === 0 ? year - 1 : year}-${formatNumber(
+                    month === 0 ? 12 : month,
+                  )}-${formatNumber(rday)}`;
+                } else if (styleName === `${className}--nextMonth`) {
+                  currentDateString = `${month === 11 ? year + 1 : year}-${formatNumber(
+                    month === 11 ? 1 : month + 2,
+                  )}-${formatNumber(rday)}`;
+                }
+                const disable =
+                  (minDate &&
+                    typeof minDate === 'string' &&
+                    dayjs(currentDateString).unix() < dayjs(minDate).unix()) ||
+                  (maxDate &&
+                    typeof maxDate === 'string' &&
+                    dayjs(currentDateString).unix() > dayjs(maxDate).unix());
+                return (
+                  <td
+                    className={classnames(
+                      `${className}--dayBlock`,
+                      styleName,
+                      currentDateString === dayjs().format('YYYY-MM-DD')
+                        ? `${className}--today`
+                        : '',
+                      dates.indexOf(currentDateString) > -1 ? `${className}--active` : '',
+                      disable ? `${className}--disable` : '',
+                    )}
+                    onClick={() => this.handleDatePick(rday, styleName, disable || false)}
+                    key={`${JSON.stringify(row)}${Math.random()}${rday}`}
+                  >
+                    {rday}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
         </tbody>
       </table>
     );

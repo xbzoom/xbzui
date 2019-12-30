@@ -1,8 +1,21 @@
+'use strict';
 module.exports = {
-  extends: ['stylelint-config-standard', 'stylelint-config-recess-order'],
+  extends: [
+    'stylelint-config-standard',
+    'stylelint-config-css-modules',
+    'stylelint-config-rational-order',
+    'stylelint-config-prettier',
+  ].map(function(key) {
+    return require.resolve(key);
+  }),
+  plugins: ['stylelint-order', 'stylelint-declaration-block-no-ignored-properties'].map(function(
+    key,
+  ) {
+    return require.resolve(key);
+  }),
   rules: {
-    'at-rule-no-unknown': [true, { ignoreAtRules: ['mixin', 'extend', 'content'] }],
-    'block-no-empty': null,
+    'no-descending-specificity': null,
+    'plugin/declaration-block-no-ignored-properties': true,
     'font-family-no-missing-generic-family-keyword': null,
   },
 };

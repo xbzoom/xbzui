@@ -11,18 +11,15 @@ export interface TabConProps {
   clearHotCityId: Function;
 }
 class TabCon extends Component<TabConProps, {}> {
-  constructor(props: TabConProps) {
-    super(props);
-    // this.displayName = 'TabCon';
-  }
   getItems() {
     const className = 'xbzoom-selectcity-container--tabCon';
-    let { index, selectVal, valIndex, params, addressMap } = this.props;
+    const { selectVal, params, addressMap } = this.props;
+    let { index, valIndex } = this.props;
 
     /**
      * [max 最大联动的层级]
      */
-    const deepMap = params.deepMap;
+    const { deepMap } = params;
     const max = deepMap.length;
 
     /* index不能大于max */
@@ -42,11 +39,13 @@ class TabCon extends Component<TabConProps, {}> {
       const items: JSX.Element[] = [];
       for (const key in val) {
         let active = false;
-        const id = parseInt(key, 10);
-        if (activeId === id) {
+        const currentId = parseInt(key, 10);
+        if (activeId === currentId) {
           active = true;
         }
-        items.push(<CityItem key={++globalkey} id={id} val={val} active={active} {...this.props} />);
+        items.push(
+          <CityItem key={++globalkey} id={currentId} val={val} active={active} {...this.props} />,
+        );
       }
       return items;
     };
@@ -73,7 +72,7 @@ class TabCon extends Component<TabConProps, {}> {
             <span className={`${className}--citys--areaGroup--areaItem`}>{key}</span>
           )}
           <div className={`${className}--citys--cityGroup`}>{cityItem(data[key])}</div>
-        </div>
+        </div>,
       );
     }
 
@@ -82,11 +81,14 @@ class TabCon extends Component<TabConProps, {}> {
         {items.length > 0 ? (
           items
         ) : (
-          <div className={`${className}--citys--none`}>{`请先选择${index === 1 ? '省份' : '城市'}~`}</div>
+          <div className={`${className}--citys--none`}>{`请先选择${
+            index === 1 ? '省份' : '城市'
+          }~`}</div>
         )}
       </div>
     );
   }
+
   render() {
     const items = this.getItems();
     return <div className="xbzoom-selectcity-container--tabCon">{items}</div>;
@@ -100,12 +102,9 @@ export interface CityItemProps extends TabConProps {
   active: any;
 }
 class CityItem extends Component<CityItemProps, {}> {
-  constructor(props: CityItemProps) {
-    super(props);
-    // this.displayName = 'CityItem';
-  }
   handleClick() {
-    let { index, changeState, id, selectVal, valIndex, clearHotCityId } = this.props;
+    const { changeState, id, clearHotCityId } = this.props;
+    let { index, selectVal, valIndex } = this.props;
 
     /* 记录当前点击的索引，用来记录值得位置 */
     valIndex = index;
@@ -130,12 +129,13 @@ class CityItem extends Component<CityItemProps, {}> {
 
     /* 更新state */
     changeState({
-      index: index,
-      valIndex: valIndex,
-      selectVal: selectVal,
+      index,
+      valIndex,
+      selectVal,
       trigger: true,
     });
   }
+
   render() {
     const className = 'xbzoom-selectcity-container--tabCon';
     const { id, val, active } = this.props;
@@ -147,7 +147,7 @@ class CityItem extends Component<CityItemProps, {}> {
     });
 
     return (
-      <span className={className2} data-id={id} onClick={(e) => this.handleClick()}>
+      <span className={className2} data-id={id} onClick={() => this.handleClick()}>
         {' '}
         {name}{' '}
       </span>

@@ -19,7 +19,7 @@ export interface PageProps {
 export default class List extends React.Component<PageProps, {}> {
   classNameForSelected = 'xbzoom-selectcity-container--list--row--active';
 
-  renderRow = (record) => {
+  renderRow = record => {
     const { highlight } = this.props;
     const hasName: string[] = [];
     const arr: React.ReactElement<HTMLSpanElement>[] = [];
@@ -32,14 +32,12 @@ export default class List extends React.Component<PageProps, {}> {
     }
     return (
       <div>
-        {Array.from(new Set(arr)).map((value, index) => {
-          return (
-            <span key={index}>
-              {value}
-              {index < arr.length - 1 ? '，' : ''}
-            </span>
-          );
-        })}
+        {Array.from(new Set(arr)).map((value, index) => (
+          <span key={Math.random()}>
+            {value}
+            {index < arr.length - 1 ? '，' : ''}
+          </span>
+        ))}
       </div>
     );
   };
@@ -62,7 +60,9 @@ export default class List extends React.Component<PageProps, {}> {
         {searchDataSource.length > 0 ? (
           <>
             {searchDataSource
-              .filter((item, index) => index >= (current - 1) * pageSize && index < current * pageSize)
+              .filter(
+                (item, index) => index >= (current - 1) * pageSize && index < current * pageSize,
+              )
               .map((item, index) => (
                 <div
                   key={JSON.stringify(item)}
@@ -79,7 +79,8 @@ export default class List extends React.Component<PageProps, {}> {
                       selectName.push(data.name);
                     }
                     setInputValue(selectVal, selectName);
-                  }}>
+                  }}
+                >
                   {this.renderRow(item)}
                 </div>
               ))}
