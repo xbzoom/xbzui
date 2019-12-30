@@ -1,5 +1,5 @@
-import '../../style/theme/common.scss';
-import '../../style/theme/iconfont.scss';
-import '../../spin/style/index.scss';
-import '../../input/style/index.scss';
-import './index.scss';
+import '../../style/theme/common.less';
+import '../../style/theme/iconfont.less';
+import '../../spin/style/index.less';
+import '../../input/style/index.less';
+import './index.less';

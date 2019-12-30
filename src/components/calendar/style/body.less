@@ -1,65 +1,78 @@
-@import '../../style/theme/variable.scss';
+@import '../../style/theme/variable.less';
 
-$calendarBody-prefix-cls: '#{$xbzoom-prefix}-calendar-body';
+@calendarBody-prefix-cls: ~'@{xbzoom-prefix}-calendar-body';
 
-.#{$calendarBody-prefix-cls} {
+.@{calendarBody-prefix-cls} {
   position: relative;
   margin: 0 auto;
+
   &--week {
     display: flex;
+
     th {
       display: inline-block;
+      flex: 1;
       width: 24px;
       height: 24px;
-      line-height: 20px;
-      flex: 1;
-      text-align: center;
       margin-top: 9px;
+      line-height: 20px;
+      text-align: center;
     }
   }
+
   &--dayBlock {
     display: inline-block;
     width: 24px;
     height: 24px;
-    line-height: 22px;
     margin: 6px;
-    border-radius: 2px;
+    font-size: 14px;
+    line-height: 22px;
     text-align: center;
     cursor: pointer;
-    font-size: 14px;
+    border-radius: 2px;
+
     &:hover {
       background-color: #d2f1ec;
     }
   }
+
   &--thisMonth {
-    color: $text-color;
+    color: @text-color;
   }
+
   &--prevMonth {
     color: rgba(0, 0, 0, 0.25);
   }
+
   &--nextMonth {
     color: rgba(0, 0, 0, 0.25);
   }
+
   &--today {
-    color: $theme-color;
-    border: 1px solid $theme-color;
-    background-color: #d2f1ec;
     line-height: 20px;
+    color: @theme-color;
+    background-color: #d2f1ec;
+    border: 1px solid @theme-color;
+
     &:hover {
       background-color: #d2f1ec;
     }
   }
+
   &--active {
-    background-color: $theme-color;
     color: #fff;
+    background-color: @theme-color;
+
     &:hover {
-      background-color: $theme-color;
+      background-color: @theme-color;
     }
   }
+
   &--disable {
+    color: #bbb;
     cursor: not-allowed;
     background-color: #eee;
-    color: #bbb;
+
     &:hover {
       background-color: #eee;
     }

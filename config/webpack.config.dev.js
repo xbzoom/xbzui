@@ -5,12 +5,8 @@ const webpack = require('webpack');
 const baseConfig = require('./webpack.base.js');
 const HappyPack = require('happypack');
 const os = require('os');
+const theme = require('../theme');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
-
-const getIPAddress = () => {
-  const interfaces = os.networkInterfaces();
-  return interfaces['以太网'] && interfaces['以太网'][1].address;
-};
 
 const devConfig = {
   mode: 'development',
@@ -26,18 +22,21 @@ const devConfig = {
         use: 'happypack/loader?id=css',
       },
       {
-        test: /\.scss$/,
-        use: 'happypack/loader?id=scss',
+        test: /\.less$/,
+        use: 'happypack/loader?id=less',
       },
     ],
   },
   devServer: {
-    hot: true,
     host: '0.0.0.0',
-    contentBase: path.join(__dirname, '../dev/'),
-    compress: true,
+    useLocalIp: true,
     port: 3001,
-    historyApiFallback: true, // 所有的404都连接到index.html
+    open: true,
+    hot: true,
+    compress: true,
+    watchContentBase: true,
+    contentBase: path.join(__dirname, '../dev/'),
+    historyApiFallback: true, // 所有的404都连接到index.ejs
   },
   devtool: 'cheap-module-eval-source-map',
   plugins: [
@@ -56,7 +55,7 @@ const devConfig = {
       threadPool: happyThreadPool,
     }),
     new HappyPack({
-      id: 'scss',
+      id: 'less',
       use: [
         'style-loader',
         {
@@ -66,13 +65,17 @@ const devConfig = {
           },
         },
         'postcss-loader',
-        'sass-loader',
+        {
+          loader: 'less-loader',
+          options: {
+            modifyVars: theme,
+          },
+        },
       ],
       threadPool: happyThreadPool,
     }),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.join(__dirname, '../src/template.html'),
+      template: path.join(__dirname, '../src/index.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({

@@ -1,4 +1,8 @@
 dist
 es
 lib
+.eslintrc.js
+.stylelintrc.js
+config
 **/*.html
+

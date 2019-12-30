@@ -8,7 +8,7 @@ import CalendarFooter from './footer';
 export interface PageProps {
   wrapperClassName?: string;
   /** 默认选中的日期 */
-  defaultDates?: string[];
+  defaultDates?: Array<string>;
   /** 是否开启年快速选择功能 */
   selectYear?: boolean;
   /** 是否开始月快速选择功能 */

@@ -1,14 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
-const HappyPack = require('happypack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const tsImportPluginFactory = require('ts-import-plugin');
-const os = require('os');
-const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 module.exports = {
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '.css', '.scss', '.json', '.gif', '.png', '.jpg', '.html'],
+    extensions: ['.tsx', '.ts', '.jsx', '.js', '.css', '.less', '.json', '.gif', '.png', '.jpg', '.html'],
     alias: {
       'react-dom': '@hot-loader/react-dom',
     },

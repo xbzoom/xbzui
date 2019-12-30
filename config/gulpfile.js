@@ -5,7 +5,7 @@
 const path = require('path');
 const gulp = require('gulp');
 const concat = require('gulp-concat');
-const sass = require('gulp-sass');
+const less = require('gulp-less');
 const autoprefixer = require('gulp-autoprefixer');
 const cssnano = require('gulp-cssnano');
 const size = require('gulp-filesize');
@@ -30,9 +30,9 @@ const browserList = [
 const DIR = {
   // 输入目录
   assets: path.resolve(__dirname, '../src/components/assets/**/*'),
-  scss: path.resolve(__dirname, '../src/components/**/*.scss'),
-  build: path.resolve(__dirname, '../src/components/**/style/*.scss'),
-  style: path.resolve(__dirname, '../src/components/style/index.scss'),
+  less: path.resolve(__dirname, '../src/components/**/*.less'),
+  build: path.resolve(__dirname, '../src/components/**/style/*.less'),
+  style: path.resolve(__dirname, '../src/components/style/index.less'),
   styleTS: path.resolve(__dirname, '../src/components/**/style/index.ts'),
   styleLibJS: path.resolve(__dirname, '../lib/**/style/index.js'),
   styleEsJS: path.resolve(__dirname, '../es/**/style/index.js'),
@@ -56,20 +56,20 @@ gulp.task('copyAssets', () => {
     .pipe(gulp.dest(DIR.esAssets));
 });
 
-// 拷贝 scss 文件
-gulp.task('copyScss', () => {
+// 拷贝 less 文件
+gulp.task('copyLess', () => {
   return gulp
-    .src(DIR.scss)
+    .src(DIR.less)
     .pipe(gulp.dest(DIR.lib))
     .pipe(gulp.dest(DIR.es));
 });
 
-// 对 scss 进行编译后拷贝
+// 对 less 进行编译后拷贝
 gulp.task('copyCss', () => {
   return gulp
-    .src(DIR.scss)
+    .src(DIR.less)
     .pipe(sourcemaps.init())
-    .pipe(sass())
+    .pipe(less())
     .pipe(autoprefixer({ overrideBrowserslist: browserList }))
     .pipe(size())
     .pipe(cssnano())
@@ -78,7 +78,7 @@ gulp.task('copyCss', () => {
 });
 
 // 编译style/index.ts并拷贝到lib
-gulp.task('copyIndexScssLib', () => {
+gulp.task('copyIndexLessLib', () => {
   return gulp
     .src(DIR.styleTS)
     .pipe(tsLib())
@@ -98,7 +98,7 @@ gulp.task('copyIndexScssLib', () => {
 });
 
 // 编译style/index.ts并拷贝到es
-gulp.task('copyIndexScssEs', () => {
+gulp.task('copyIndexLessEs', () => {
   return gulp
     .src(DIR.styleTS)
     .pipe(tsEs())
@@ -121,7 +121,7 @@ gulp.task('copyIndexScssEs', () => {
 gulp.task('createCssLib', () => {
   return gulp
     .src(DIR.styleLibJS)
-    .pipe(replace(/\.scss/g, '.css'))
+    .pipe(replace(/\.less/g, '.css'))
     .pipe(rename({ basename: 'css' }))
     .pipe(gulp.dest(DIR.lib));
 });
@@ -130,7 +130,7 @@ gulp.task('createCssLib', () => {
 gulp.task('createCssEs', () => {
   return gulp
     .src(DIR.styleEsJS)
-    .pipe(replace(/\.scss/g, '.css'))
+    .pipe(replace(/\.less/g, '.css'))
     .pipe(rename({ basename: 'css' }))
     .pipe(gulp.dest(DIR.es));
 });
@@ -140,7 +140,7 @@ gulp.task('dist', () => {
   return gulp
     .src([DIR.style, DIR.build])
     .pipe(sourcemaps.init())
-    .pipe(sass())
+    .pipe(less())
     .pipe(autoprefixer({ overrideBrowserslist: browserList }))
     .pipe(concat('xbzoom.css'))
     .pipe(size())
@@ -159,7 +159,7 @@ gulp.task('dist', () => {
     .pipe(gulp.dest(DIR.dist));
 });
 
-gulp.task('buildCss', gulp.parallel('dist', 'copyCss', 'copyScss', 'copyIndexScssLib', 'copyIndexScssEs'));
+gulp.task('buildCss', gulp.parallel('dist', 'copyCss', 'copyLess', 'copyIndexLessLib', 'copyIndexLessEs'));
 
 gulp.task('buildCssJs', gulp.parallel('createCssLib', 'createCssEs'));
 

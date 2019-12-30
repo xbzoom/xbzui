@@ -97,7 +97,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
     /* 构建默认数据的选中值 */
     const selectVal: Array<any> = [];
 
-    newDeepMap.forEach((v, i) => {
+    newDeepMap.forEach((v) => {
       const value = v.value;
       if (value !== undefined) {
         selectVal.push(value);

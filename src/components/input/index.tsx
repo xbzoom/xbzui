@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import { MouseEventHandler } from '../util/baseType';
 
 export interface PageProps {
   ref?: (node: HTMLInputElement) => void;

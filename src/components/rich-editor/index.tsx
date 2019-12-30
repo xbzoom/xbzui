@@ -1,5 +1,5 @@
 import * as React from 'react';
-import BraftEditor, { EditorState, BraftEditorProps } from 'braft-editor';
+import BraftEditor from 'braft-editor';
 import ColorPicker from 'braft-extensions/dist/color-picker';
 // import CodeHighlighter from 'braft-extensions/dist/code-highlighter'
 import Table from 'braft-extensions/dist/table';

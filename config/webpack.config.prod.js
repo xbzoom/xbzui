@@ -9,6 +9,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HappyPack = require('happypack');
 const os = require('os');
+const theme = require('../theme');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 /** 每次打包前要清空的文件夹 */
@@ -52,8 +53,8 @@ const prodConfig = {
         use: [MiniCssExtractPlugin.loader, 'happypack/loader?id=css'],
       },
       {
-        test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'happypack/loader?id=scss'],
+        test: /\.less$/,
+        use: [MiniCssExtractPlugin.loader, 'happypack/loader?id=less'],
       },
     ],
   },
@@ -74,7 +75,7 @@ const prodConfig = {
       threadPool: happyThreadPool,
     }),
     new HappyPack({
-      id: 'scss',
+      id: 'less',
       use: [
         // "style-loader",
         {
@@ -84,7 +85,12 @@ const prodConfig = {
           },
         },
         'postcss-loader',
-        'sass-loader',
+        {
+          loader: 'less-loader',
+          options: {
+            modifyVars: theme,
+          },
+        },
       ],
       threadPool: happyThreadPool,
     }),

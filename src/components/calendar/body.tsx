@@ -11,11 +11,11 @@ export interface PageProps {
   /** 选择下一月的事件 */
   nextMonth: Function;
   /** 视窗的数据 */
-  viewData: any;
+  viewData: Array<any>;
   year: number;
   month: number;
   /** 选中的日期 */
-  dates: string[];
+  dates: Array<string>;
   /** 最小可选日期 */
   minDate?: string;
   /** 最大可选日期 */
@@ -54,7 +54,6 @@ export default class CalendarBody extends React.Component<PageProps, {}> {
       arr.fill(`${className}--nextMonth`, j);
       return arr;
     })();
-
     // 把每一个月的显示数据以7天为一组等分
     rMonth.forEach((rday: any, index: number) => {
       if (index % 7 === 0) {

@@ -1,64 +1,77 @@
-@import '../../style/theme/variable.scss';
+@import '../../style/theme/variable.less';
 
-$calendarHeader-prefix-cls: '#{$xbzoom-prefix}-calendar-header';
+@calendarHeader-prefix-cls: ~'@{xbzoom-prefix}-calendar-header';
 
-.#{$calendarHeader-prefix-cls} {
+.@{calendarHeader-prefix-cls} {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   height: 40px;
-  align-items: center;
-  border-bottom: 1px solid #e8e8e8;
   padding: 0 13px;
+  border-bottom: 1px solid #e8e8e8;
+
   &--doubleLeft {
     font-size: 12px;
     cursor: pointer;
+
     &:hover {
-      color: $theme-color;
+      color: @theme-color;
     }
   }
+
   &--left {
-    font-size: 12px;
     margin-left: 12px;
-    cursor: pointer;
-    &:hover {
-      color: $theme-color;
-    }
-  }
-  &--dateInfo {
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.65);
-    &--year {
-      margin-right: 5px;
-      &Select {
-        cursor: pointer;
-        &:hover {
-          color: $theme-color;
-        }
-      }
-    }
-    &--month {
-      &Select {
-        cursor: pointer;
-        &:hover {
-          color: $theme-color;
-        }
-      }
-    }
-  }
-  &--right {
     font-size: 12px;
-    margin-right: 12px;
     cursor: pointer;
 
     &:hover {
-      color: $theme-color;
+      color: @theme-color;
     }
   }
+
+  &--dateInfo {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.65);
+
+    &--year {
+      margin-right: 5px;
+
+      &Select {
+        cursor: pointer;
+
+        &:hover {
+          color: @theme-color;
+        }
+      }
+    }
+
+    &--month {
+      &Select {
+        cursor: pointer;
+
+        &:hover {
+          color: @theme-color;
+        }
+      }
+    }
+  }
+
+  &--right {
+    margin-right: 12px;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+      color: @theme-color;
+    }
+  }
+
   &--doubleRight {
     font-size: 12px;
     cursor: pointer;
+
     &:hover {
-      color: $theme-color;
+      color: @theme-color;
     }
   }
 }

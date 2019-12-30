@@ -28,6 +28,7 @@ module.exports = {
     'prettier/prettier': 1,
     'no-alert': 2,
     'no-debugger': 2,
+    'no-unused-vars': 2,
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     eqeqeq: ['warn', 'always'],
     'prefer-const': ['error', { destructuring: 'all', ignoreReadBeforeAssign: true }],
@@ -39,6 +40,7 @@ module.exports = {
     '@typescript-eslint/no-triple-slash-reference': 0,
     '@typescript-eslint/ban-ts-ignore': 0,
     '@typescript-eslint/no-this-alias': 0,
+    '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/triple-slash-reference': ['error', { path: 'always', types: 'never', lib: 'never' }],
     // React相关校验规则

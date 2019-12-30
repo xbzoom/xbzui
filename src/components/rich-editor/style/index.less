@@ -1,0 +1,21 @@
+@import '../../style/theme/variable.less';
+@import '../../spin/style/index.less';
+@import './editor.less';
+@import './color-picker.less';
+// @import "./code-highlighter.less";
+@import './table.less';
+
+@RichEditor-prefix-cls: ~'@{xbzoom-prefix}-rich-editor';
+
+.@{RichEditor-prefix-cls} {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+
+  &-count {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 10px 6px 0;
+    font-size: 16px;
+    color: #999;
+  }
+}
