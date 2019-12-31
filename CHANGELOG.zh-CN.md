@@ -1,5 +1,5 @@
 ---
-order: 9
+order: 1
 title: 更新日志
 toc: false
 timeline: true
@@ -25,7 +25,7 @@ React组件库 🔥 整体概述、 🌟 新增模块、 💄 模块调整、 �
 
 ## 0.1.0
 
-`2019-12-27`
+`2019-12-31`
 
 ### 🔥项目脚手架初步搭建
 
@@ -33,6 +33,7 @@ React组件库 🔥 整体概述、 🌟 新增模块、 💄 模块调整、 �
 - 🌟打包成umd es lib 并兼容babel-import-plugin
 - 🌟添加城市选择（SelectCity）组件
 - 🌟图片查看组件（Zimage）组件
+- 🌟兼容antd库及其变量
 - 🌟丰富util
 - 🌟使用iconfont图标库
 - 🌟公共类型提取

@@ -1,5 +1,5 @@
 ---
-order: 9
+order: 1
 title: 更新日志
 toc: false
 timeline: true
@@ -25,15 +25,16 @@ React component library 🔥 overall overview, new module, 💄 module 🌟 adju
 
 ## 0.1.0
 
-`2019-12-27`
+`2019-12-31`
 
 ### 🔥Preliminary construction of project scaffolding
 
-- 🌟 webpack4 + gulp
-- 🌟 packaged into umd es lib and compatible with Babel - import - the plugin
-- 🌟 added city choice (SelectCity) components
-- 🌟 image view components (Zimage) components
-- 🌟 rich util
-- 🌟 use iconfont icon library
-- 🌟 extraction public type
-- 🌟 fetch encapsulation
+- 🌟 Webpack4 + gulp
+- 🌟 Packaged into umd es lib and compatible with Babel - import - the plugin
+- 🌟 Added city choice (SelectCity) components
+- 🌟 Image view components (Zimage) components
+- 🌟 Compatible with antd library and its variables
+- 🌟 Rich util
+- 🌟 Use iconfont icon library
+- 🌟 Extraction public type
+- 🌟 Fetch encapsulation
