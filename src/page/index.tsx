@@ -1,26 +1,12 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { SelectCity, Zimage } from '../components';
-import '../components/select-city/style';
-import '../components/zimage/style';
-import address from '../components/assets/address.json';
-import touxiang from '../components/assets/images/touxiang.jpg';
+import { Calendar } from '../components';
+import '../components/calendar/style';
 
 const App = () => (
   <div>
-    <SelectCity
-      params={{
-        level: 2,
-        deepMap: [{ name: '省' }, { name: '市' }],
-        address,
-        search: true,
-        onChange: (selectVal, selectName) => {
-          console.log(selectVal, selectName);
-        },
-      }}
-    />
-    <Zimage srcs={[touxiang]} />
+    <Calendar minDate="2019-12-19" />
   </div>
 );
 

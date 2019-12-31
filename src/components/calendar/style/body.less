@@ -1,4 +1,4 @@
-@import '../../style/theme/variable.less';
+@import '../../style/themes/default.less';
 
 @calendarBody-prefix-cls: ~'@{xbzoom-prefix}-calendar-body';
 
@@ -32,7 +32,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: #d2f1ec;
+      background-color: fade(@primary-color, 20%);
     }
   }
 
@@ -41,21 +41,21 @@
   }
 
   &--prevMonth {
-    color: rgba(0, 0, 0, 0.25);
+    color: @disabled-color;
   }
 
   &--nextMonth {
-    color: rgba(0, 0, 0, 0.25);
+    color: @disabled-color;
   }
 
   &--today {
     color: @primary-color;
     line-height: 20px;
-    background-color: #d2f1ec;
+    background-color: fade(@primary-color, 20%);
     border: 1px solid @primary-color;
 
     &:hover {
-      background-color: #d2f1ec;
+      background-color: fade(@primary-color, 20%);
     }
   }
 
@@ -69,12 +69,12 @@
   }
 
   &--disable {
-    color: #bbb;
-    background-color: #eee;
+    color: @disabled-color;
+    background-color: @disabled-bg;
     cursor: not-allowed;
 
     &:hover {
-      background-color: #eee;
+      background-color: @disabled-bg;
     }
   }
 }

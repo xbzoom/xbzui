@@ -1,4 +1,4 @@
-@import '../../style/theme/variable.less';
+@import '../../style/themes/default.less';
 
 @selectcity-prefix-cls: ~'@{xbzoom-prefix}-selectcity';
 @selectcity-prefix-cls2: ~'@{xbzoom-prefix}-selectcity-container';
@@ -115,20 +115,24 @@
       }
 
       &:hover {
-        background-color: rgba(113, 223, 204, 0.4);
+        background-color: fade(@outline-color, 20%);
       }
 
       &--active {
         color: #fff;
-        background-color: #1fd6b6;
+        background-color: @primary-color;
 
         .xbzoom-selectcity-container--list--row--highlight {
           color: #fff;
         }
 
         &:hover {
-          background-color: #1fd6b6;
+          background-color: @primary-color;
         }
+      }
+
+      &--last {
+        border-bottom: none;
       }
     }
 
@@ -194,7 +198,7 @@
       z-index: 1;
       margin-top: -1px;
       padding: 12px 16px;
-      color: rgba(0, 0, 0, 0.25);
+      color: rgba(190, 92, 92, 0.65);
       font-size: 14px;
       text-align: center;
       background: #fff;

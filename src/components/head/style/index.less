@@ -1,5 +1,4 @@
-@import '../../style/theme/variable.less';
-@import '../../spin/style/index.less';
+@import '../../style/themes/default.less';
 
 @head-prefix-cls: ~'@{xbzoom-prefix}-head';
 
@@ -10,10 +9,10 @@
   height: 40px;
   margin-bottom: 16px;
   overflow: hidden;
-  border-bottom: 2px solid #22baa0;
+  border-bottom: 2px solid @primary-color;
 
   &--title {
-    color: #000;
+    color: #333;
     font-weight: bold;
     font-size: 18px;
   }

@@ -1,4 +1,4 @@
-@import '../../style/theme/variable.less';
+@import '../../style/themes/default.less';
 
 @calendar-prefix-cls: ~'@{xbzoom-prefix}-calendar';
 
@@ -39,7 +39,7 @@
         cursor: pointer;
 
         &:hover {
-          background-color: #d2f1ec;
+          background-color: fade(@primary-color, 20%);
         }
 
         &--active {
@@ -78,7 +78,7 @@
         cursor: pointer;
 
         &:hover {
-          background-color: #d2f1ec;
+          background-color: fade(@primary-color, 20%);
         }
 
         &--active {

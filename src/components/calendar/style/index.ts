@@ -1,5 +1,5 @@
-import '../../style/theme/iconfont.less';
-import '../../style/theme/common.less';
+import '../../style/themes/iconfont.less';
+import '../../style/themes/common.less';
 import './index.less';
 import './head.less';
 import './body.less';

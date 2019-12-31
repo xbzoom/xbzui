@@ -55,35 +55,35 @@ export default class List extends React.Component<PageProps, {}> {
       notFoundContent = '找不到你要的结果，换个试试',
     } = this.props;
     const className = 'xbzoom-selectcity-container--list';
+    const listData = searchDataSource.filter(
+      (item, index) => index >= (current - 1) * pageSize && index < current * pageSize,
+    );
     return (
       <div className={className}>
         {searchDataSource.length > 0 ? (
           <>
-            {searchDataSource
-              .filter(
-                (item, index) => index >= (current - 1) * pageSize && index < current * pageSize,
-              )
-              .map((item, index) => (
-                <div
-                  key={JSON.stringify(item)}
-                  className={classnames({
-                    [`${className}--row`]: true,
-                    [this.classNameForSelected]: selectedIndex === index,
-                  })}
-                  onClick={() => {
-                    const selectVal: number[] = [];
-                    const selectName: string[] = [];
-                    for (const key in item) {
-                      const data = item[key];
-                      selectVal.push(data.value);
-                      selectName.push(data.name);
-                    }
-                    setInputValue(selectVal, selectName);
-                  }}
-                >
-                  {this.renderRow(item)}
-                </div>
-              ))}
+            {listData.map((item, index) => (
+              <div
+                key={JSON.stringify(item)}
+                className={classnames({
+                  [`${className}--row`]: true,
+                  [this.classNameForSelected]: selectedIndex === index,
+                  [`${className}--row--last`]: totalPage <= 1,
+                })}
+                onClick={() => {
+                  const selectVal: number[] = [];
+                  const selectName: string[] = [];
+                  for (const key in item) {
+                    const data = item[key];
+                    selectVal.push(data.value);
+                    selectName.push(data.name);
+                  }
+                  setInputValue(selectVal, selectName);
+                }}
+              >
+                {this.renderRow(item)}
+              </div>
+            ))}
             {totalPage > 1 && (
               <div className={`${className}--pagination`}>
                 <i
