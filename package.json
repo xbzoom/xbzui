@@ -21,6 +21,7 @@
     "umd": "webpack --config config/webpack.config.prod.js --color",
     "gulp": "cd config && gulp",
     "build": "npm run umd && npm run lib && npm run es && npm run gulp",
+    "prepublishOnly": "npm run build",
     "pub": "npm publish --access=public",
     "lint:ts": "tslint \"src/**/*.ts\" \"src/**/*.tsx\"",
     "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src && npm run lint:style",

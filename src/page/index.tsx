@@ -1,14 +1,8 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { Calendar } from '../components';
-import '../components/calendar/style';
 
-const App = () => (
-  <div>
-    <Calendar minDate="2019-12-19" />
-  </div>
-);
+const App = () => <div>123</div>;
 
 function renderWithHotReload() {
   render(

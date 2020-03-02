@@ -287,14 +287,17 @@ export default class Zimage extends React.Component<PageProps, PageStates> {
                 onClick={this.downsize}
               >
                 <div
-                  className={`${className}--content--body`}
+                  className={classnames({
+                    [`${className}--content--body`]: true,
+                    [`${className}--content--original--body`]: original,
+                  })}
                   style={CSSProperties}
                   onClick={this.original}
                 >
                   <img
                     className={classnames({
                       [`${className}--content--body--img`]: true,
-                      [`${className}--content--body--original--img`]: original,
+                      [`${className}--content--original--body--img`]: original,
                     })}
                     src={srcs[activeIndex]}
                     alt=""
