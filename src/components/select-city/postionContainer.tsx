@@ -8,6 +8,7 @@ import Tab from './tab';
 import TabCon from './tabCon';
 
 export interface PostionContainerProps {
+  /** 搜索的关键字 */
   matchQ: string;
   loading: boolean;
   searchDataSource: any[];

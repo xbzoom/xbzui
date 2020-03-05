@@ -31,7 +31,7 @@ export const dateToString = (dates: string[]) => {
   const formatMD = (d: string) => dayjs(d).format('MM-DD');
 
   const dateString = diffArr
-    .map(item => {
+    .map((item: string[]) => {
       if (item[0] === item[1]) {
         return formatMD(item[0]);
       }
@@ -48,7 +48,7 @@ export const formatNumber = (n: string | number) => {
   return str[1] ? str : `0${str}`;
 };
 
-export const isObject = value => {
+export const isObject = (value: any) => {
   const type = typeof value;
   return value != null && (type === 'object' || type === 'function');
 };
@@ -65,10 +65,14 @@ const freeGlobalThis =
   globalThis;
 
 /** 检测变量self */
-const freeSelf = typeof self === 'object' && self !== null && self.Object === Object && self; // eslint-disable-line
+/* eslint-disable no-restricted-globals */
+const freeSelf = typeof self === 'object' && self !== null && self.Object === Object && self;
+/* eslint-ensable no-restricted-globals */
 
 /** 用作对全局对象的引用 */
-const root = freeGlobalThis || freeGlobal || freeSelf || Function('return this')(); // eslint-disable-line
+/* eslint-disable no-restricted-globals,no-new-func */
+const root = freeGlobalThis || freeGlobal || freeSelf || Function('return this')();
+/* eslint-ensable no-restricted-globals,no-new-func */
 
 /**
  * 创建一个 debounced（防抖动）函数，该函数会从上一次被调用后，
@@ -82,8 +86,13 @@ const root = freeGlobalThis || freeGlobal || freeSelf || Function('return this')
  * 如果 wait 为 0 并且 leading 为 false, func调用将被推迟到下一个点，类似setTimeout为0的超时。
  */
 export const debounce = (func: Function, wait: number, options: debounceOptionType = {}) => {
-  /* eslint-disable */
-  let lastArgs, lastThis, maxWait, result, timerId, lastCallTime;
+  /* eslint-disable one-var, no-param-reassign,no-multi-assign,no-shadow */
+  let lastArgs;
+  let lastThis;
+  let maxWait;
+  let result;
+  let timerId;
+  let lastCallTime;
 
   let lastInvokeTime = 0;
   let leading = false;
@@ -115,7 +124,6 @@ export const debounce = (func: Function, wait: number, options: debounceOptionTy
   function invokeFunc(time) {
     const args = lastArgs;
     const thisArg = lastThis;
-
     lastArgs = lastThis = undefined;
     lastInvokeTime = time;
     result = func.apply(thisArg, args);
@@ -225,7 +233,7 @@ export const debounce = (func: Function, wait: number, options: debounceOptionTy
   debounced.flush = flush;
   debounced.pending = pending;
   return debounced;
-  /* eslint-enable */
+  /* eslint-enable one-var,no-multi-assign,no-shadow */
 };
 
 /**
@@ -264,23 +272,23 @@ export const parseAddress: (
   data: Record<string, any>,
   max: number,
 ) => { addressMap: Map<any, any>[]; addressMapSearch: any[] } = (data, max) => {
-  /* eslint-disable */
+  /* eslint-disable no-shadow */
   const addressMap: Map<any, any>[] = [];
   let index = 0;
   const addressMapSearch: any[] = [];
   const parentIds: { area: string; value: string | number }[] = [];
   const fn = (data: any, value?: any) => {
-    data.forEach((v: any, i: number) => {
-      const area = v.area;
-      const list = v.list;
+    data.forEach((v: any) => {
+      const { area } = v;
+      const { list } = v;
       let parentId: any;
 
       if (value !== undefined) {
         parentId = value;
       }
       if (list) {
-        list.forEach((v: any, i: number) => {
-          const name = v.name;
+        list.forEach((v: any) => {
+          const { name } = v;
           const value = parseInt(v.value, 10);
           const { pinyin, py } = v;
 
@@ -339,10 +347,10 @@ export const parseAddress: (
           }
 
           /* 递归children */
-          const children = v.children;
+          const { children } = v;
 
           const newParentIds: any[] = [];
-          parentIds.forEach(value => {
+          parentIds.forEach((value: { area: string; value: string | number }) => {
             newParentIds.push(value);
           });
           if (index <= max) {
@@ -354,8 +362,6 @@ export const parseAddress: (
               value,
             });
           }
-
-          // addressMapSearch.push(`${name}|${pinyin}|${py}|${parentIds.length > 0 ? `${parentIds.join('|')}|`:''}${value}`);
           if (children && children.length > 0) {
             parentIds.push({ area, value });
             index++;
@@ -374,16 +380,11 @@ export const parseAddress: (
     addressMap,
     addressMapSearch,
   };
-  /* eslint-enable */
+  /* eslint-enable no-shadow */
 };
 
-export const matchSearch = (
-  q: string,
-  searchSource: searchSourceData[],
-  addressMap: any[],
-  deepMap: any[],
-) => {
-  /* eslint-disable */
+export const matchSearch = (q: string, searchSource: searchSourceData[], addressMap: any[]) => {
+  /* eslint-disable no-shadow */
   const searchResult = {
     length: 0,
   };
@@ -392,8 +393,8 @@ export const matchSearch = (
    */
   q = q.toLocaleLowerCase();
 
-  searchSource.forEach(data => {
-    const getMatchData = (data: searchSourceData, addressMap: Map<any, any>[], deepMap: any[]) => {
+  searchSource.forEach((data: searchSourceData) => {
+    const getMatchData = (data: searchSourceData, addressMap: Map<any, any>[]) => {
       const { parentIds } = data;
       const selfValue = data.value;
       let index = parentIds.length;
@@ -420,17 +421,19 @@ export const matchSearch = (
         }
         initArr.pop();
         index--;
+        /* eslint-disable no-useless-return */
         return;
+        /* eslint-enable no-useless-return */
       };
       switch (index) {
-        //一级
+        // 一级
         case 0: {
           const parent = { ...data };
           delete parent.parentIds;
           deepGetMatchData(selfValue, [parent]);
           break;
         }
-        //二级
+        // 二级
         case 1: {
           const { area, value } = parentIds[0];
           const parent = { ...addressMap[0].get(area)[area][value], value };
@@ -439,7 +442,7 @@ export const matchSearch = (
           deepGetMatchData(selfValue, [parent, parent2]);
           break;
         }
-        //三级
+        // 三级
         case 2: {
           const { area, value } = parentIds[0];
           const parent = { ...addressMap[0].get(area)[area][value], value };
@@ -467,7 +470,7 @@ export const matchSearch = (
      * 全拼
      */
     if (py.startsWith(q.toUpperCase()) || name.startsWith(q) || pinyin.startsWith(q)) {
-      const newData = getMatchData(data, addressMap, deepMap);
+      const newData = getMatchData(data, addressMap);
       newData.forEach((element: any[]) => {
         const key: number[] = [];
         const newElement = {};
@@ -493,7 +496,7 @@ export const matchSearch = (
     }
   }
   return searchResultArr;
-  /* eslint-enable */
+  /* eslint-enable no-shadow */
 };
 
 /**
@@ -506,7 +509,6 @@ export const parseAddressName: (data: any[], map: Array<Map<any, any>>) => strin
   data,
   map,
 ) => {
-  /* eslint-disable */
   if (data.length <= 0) return [];
   const arr = data.map((v, i) => {
     if (i === 0) {
@@ -528,6 +530,9 @@ export const parseAddressName: (data: any[], map: Array<Map<any, any>>) => strin
         }
       }
     }
+    /* eslint-disable no-useless-return */
+    return;
+    /* eslint-enable no-useless-return */
   });
 
   return arr;

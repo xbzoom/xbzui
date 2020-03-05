@@ -119,7 +119,7 @@ export default class RichEditor extends React.Component<PageProps, PageStates> {
     let braftEditorProps: any = {
       ...this.props,
       id: 'xbzoom-rich-editor',
-      ref: node => {
+      ref: (node: BraftEditor) => {
         this.editor = node;
       },
       value: editorState,

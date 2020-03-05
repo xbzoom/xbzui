@@ -5,30 +5,31 @@ import { parseAddress, parseAddressName, matchSearch } from '../util/util';
 import fetchFn from '../util/request';
 import PostionContainer from './postionContainer';
 
+/* eslint-disable no-param-reassign */
 export interface ParamsProps {
-  // deepMap: [{name: '省'},{name: '市'},{name: '区'}],
+  /** deepMap: [{name: '省'},{name: '市'},{name: '区'}] */
   deepMap: Array<{ name: string; value?: number }>;
-  /* 弹窗样式 */
+  /** 弹窗样式 */
   popupStyle?: React.CSSProperties;
-  /* 搜索 */
+  /** 搜索 */
   search?: boolean;
   /** 清空按钮 */
   showClear?: boolean;
   /** 级别 1省 2省市 3省市区 */
   level?: 1 | 2 | 3;
-  /* json方式 方式城市基本数据，与addressApi选项2选1， 优先 address */
+  /** json方式 方式城市基本数据，与addressApi选项2选1， 优先 address */
   address?: any;
-  /* fetch api方式城市基本数据 */
+  /** fetch api方式城市基本数据 */
   addressApi?: string;
   /** 热门城市 */
   hotCityApi?: string;
-  /* fetch api方式城市请求参数 */
+  /** fetch api方式城市请求参数 */
   addressFetchData?: object;
-  /* input 的样式 */
+  /** input 的样式 */
   style?: React.CSSProperties;
-  /* 选择到最后一层的回调 */
+  /** 选择到最后一层的回调 */
   onChange: (selectVal: number[], selectName: string[], code: any) => void;
-  /* 每层选择的回调，除了， 除了最后一层调用onChange */
+  /** 每层选择的回调，除了， 除了最后一层调用onChange */
   onSelect?: (selectVal: number[], selectName: string[], code: any) => void;
   /** 输入框提示文案 */
   placeholder?: string;
@@ -41,12 +42,15 @@ export interface ParamsProps {
 }
 
 export interface SelectCityProps {
+  /** 唯一标识符 */
   code?: any;
+  /** 配置项 */
   params: ParamsProps;
   onChange?: (value: any) => void;
 }
 
 export interface SelectCityState {
+  /** 是否展示浮块 */
   show: boolean;
   input: {
     left: number;
@@ -56,8 +60,8 @@ export interface SelectCityState {
   index: number;
   valIndex: number;
   selectVal: number[];
-  // selectName: l > 0 ? /* 根据默认值解析中文名称 */ parseAddressName(selectVal, this.addressMap) : [],
   selectName: string[];
+  /** 搜索中 */
   searching: boolean;
   searchName: string;
   searchDataSource: Record<string, any>[];
@@ -66,6 +70,7 @@ export interface SelectCityState {
   addressMapSearch: any[];
   addressLoading: boolean;
   deepMap: Array<{ name: string; value?: number }>;
+  /** 热门城市数据 */
   hotData: Array<{ name: string; provinceId: number; cityId: number }>;
   /** 无搜索结果提示 */
   notFoundContent?: string;
@@ -101,7 +106,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
     /* 构建默认数据的选中值 */
     const selectVal: Array<any> = [];
 
-    newDeepMap.forEach(v => {
+    newDeepMap.forEach((v: { name: string; value?: number | undefined }) => {
       const { value } = v;
       if (value !== undefined) {
         selectVal.push(value);
@@ -197,7 +202,6 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
           searchName,
           this.state.addressMapSearch,
           this.state.addressMap,
-          this.state.deepMap,
         );
         this._cache[searchName] = searchResult;
       }
@@ -217,6 +221,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
     };
   }
 
+  /** 清空所有state */
   clear = () => {
     const {
       code,
@@ -236,6 +241,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
     this.triggerChange({ selectVal: [], selectName: [] });
   };
 
+  /** 自动选中下一级 */
   autoSelect = (params: any) => {
     const { index, selectVal } = params;
     const data = this.state.addressMap[index].get(selectVal[index - 1]);
@@ -267,6 +273,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
     }
   };
 
+  /** 浮块属性 */
   postionContainerProps = () => {
     const {
       addressMap,
@@ -325,6 +332,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
     };
   };
 
+  /** 获取城市数据 */
   getAddress = async () => {
     const {
       params: { hotCityApi, addressApi, onChange, addressFetchData, level },
@@ -386,7 +394,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
     const independent = Array.from(
       new Set(
         data
-          .map(item =>
+          .map((item: any) =>
             Array.prototype.slice.apply({
               ...item,
               length: level,
@@ -395,7 +403,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
           .map((item: any[]) => JSON.stringify(item)),
       ),
     ).map((item: string) => JSON.parse(item));
-    return independent.map(item => {
+    return independent.map((item: any) => {
       const result = {};
       item.forEach((element, index) => {
         result[index] = element;
@@ -404,6 +412,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
     });
   };
 
+  /** 输入框属性 */
   input = () => {
     const {
       params: {
@@ -427,6 +436,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
     };
   };
 
+  /** 隐藏浮块 */
   hide = () => {
     this.setState({
       show: false,
@@ -460,7 +470,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
       params: { style, placeholder, search, disabled },
     } = this.props;
     const props: any = {
-      ref: node => {
+      ref: (node: any) => {
         this.inputCity = node;
       },
       onClick: (e: React.SyntheticEvent<any>) => this.show(e),
@@ -486,6 +496,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
     return props;
   };
 
+  /** 改变状态 */
   changeState(params: any) {
     const {
       code,
@@ -508,7 +519,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
         this.autoSelect(params);
       }
       params.selectName = parseAddressName(params.selectVal, this.state.addressMap).filter(
-        item => item,
+        (item: string) => item,
       );
     }
     const triggerCache = params.trigger;
@@ -532,6 +543,7 @@ export default class SelectCity extends React.Component<SelectCityProps, SelectC
     }
   }
 
+  /** 展示浮块 */
   show(e: React.SyntheticEvent<any>) {
     const { selectVal } = this.state;
     const selectValLength = selectVal.length;

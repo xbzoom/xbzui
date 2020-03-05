@@ -1,6 +1,8 @@
 import 'whatwg-fetch';
 import * as queryString from 'querystring';
 
+/* eslint-disable no-param-reassign,no-console */
+
 /**
  * 带有timeout的_fetch
  * @param fetchPromise
@@ -10,7 +12,7 @@ const _fetch = (fetchPromise: Promise<Response>, timeout: number) => {
   let timeoutAction: any;
   const timerPromise = new Promise((resolve, reject) => {
     timeoutAction = () => {
-      reject('timeout'); // eslint-disable-line
+      reject(new Error('timeout'));
     };
   });
   setTimeout(() => {
@@ -64,7 +66,7 @@ const request = (url = '', data?: {}, option?: RequestInit) => {
       delete json.body;
     }
   }
-  return new Promise(resolve => {
+  return new Promise((resolve: (value?: unknown) => void) => {
     _fetch(fetch(url, json), json.timeout)
       .then((res: Response) => res.json())
       .then((response: ResponeData) => {

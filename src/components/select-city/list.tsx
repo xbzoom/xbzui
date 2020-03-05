@@ -3,14 +3,23 @@ import * as classnames from 'classnames';
 import { searchResultArr } from '../util/baseType';
 
 export interface PageProps {
+  /** 列表数据 */
   searchDataSource: any[];
+  /** 当前选中是第几条 */
   selectedIndex: number;
+  /** 设置组件状态值 */
   setInputValue: (selectVal: number[], selectName: string[]) => void;
+  /** 高亮方法 */
   highlight: (data: searchResultArr) => string | any[] | JSX.Element;
+  /** 当前页码 */
   current: number;
+  /** 每页条数 */
   pageSize: number;
+  /** 总页码 */
   totalPage: number;
+  /** 前一页 */
   prevBtn: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  /** 后一页 */
   nextBtn: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   /** 无搜索结果提示 */
   notFoundContent?: string;
@@ -19,7 +28,7 @@ export interface PageProps {
 export default class List extends React.Component<PageProps, {}> {
   classNameForSelected = 'xbzoom-selectcity-container--list--row--active';
 
-  renderRow = record => {
+  renderRow = (record: any) => {
     const { highlight } = this.props;
     const hasName: string[] = [];
     const arr: React.ReactElement<HTMLSpanElement>[] = [];

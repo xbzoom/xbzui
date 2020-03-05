@@ -8,6 +8,7 @@ export interface TabConProps {
   addressMap: any;
   valIndex: number;
   changeState: (data: any) => void;
+  /** 清楚选中的热门城市 */
   clearHotCityId: Function;
 }
 class TabCon extends Component<TabConProps, {}> {
